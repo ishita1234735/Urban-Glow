@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Salon - Beauty Salon Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <style> 
+        
+    .team-item img{
+    height:250px;
+    object-fit:cover;
+}
+
+.team-overlay{
+    text-align:center;
+     background:transparent !important;
+}
+.gallery-item
+{
+    position:relative;
+    overflow:hidden;
+    border-radius:22px;
+    height:100%;
+}
+
+
+
+.map-heading
+{
+    text-align:center;
+}
+
+.gallery-img
+{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:22px;
+    transition:0.5s;
+}
+
+.gallery-item:hover .gallery-img
+{
+    transform:scale(1.05);
+}
+
+.gallery-overlay
+{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.25);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    opacity:0;
+    transition:0.4s;
+}
+
+.gallery-item:hover .gallery-overlay
+{
+    opacity:1;
+}
+
+.gallery-overlay .btn
+{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:24px;
+}
+
+.gallery-large
+{
+    height:650px;
+}
+
+.gallery-small
+{
+    height:310px;
+}
+
+.s-btn1{
+    margin-top:25px;
+    background:#c08a6d;
+    color:white;
+    border:none;
+    padding:12px 28px;
+    transition:0.3s;
+    position:relative;
+    z-index:2;
+    margin-top:10px;
+    display:inline-block;
+}
+
+.owner-box
+{
+    background:#f8f3ef;
+    border-left:5px solid #c08a6d;
+
+    border-radius:16px;
+
+    padding:16px 22px;
+
+    display:flex;
+    align-items:center;
+
+    gap:16px;
+
+    margin-top:18px;
+
+    box-shadow:0 3px 14px rgba(0,0,0,0.05);
+}
+
+#owner-photo
+{
+    width:75px;
+    height:75px;
+
+    object-fit:cover;
+
+    border:3px solid white;
+}
+
+#owner-name
+{
+    margin:0;
+
+    font-size:24px;
+
+    font-weight:600;
+
+    color:#1f1f1f;
+}
+
+.s-btn1:hover{
+    background:#a97155;
+}
+.opening-box
+{
+    background:#f8f3ef;
+
+    border-radius:18px;
+
+    padding:22px 20px;
+
+    text-align:center;
+
+    height:100%;
+
+    box-shadow:0 4px 14px rgba(0,0,0,0.05);
+}
+
+.clock-icon
+{
+    font-size:42px;
+
+    color:#c08a6d;
+
+    margin-bottom:14px;
+}
+
+.opening-title
+{
+    font-size:28px;
+
+    margin-bottom:10px;
+
+    color:#1f1f1f;
+}
+
+.opening-days
+{
+    font-size:18px;
+
+    color:#666;
+
+    margin-bottom:10px;
+}
+
+.opening-time
+{
+    font-size:21px;
+
+    font-weight:600;
+
+    color:#8b7d75;
+
+    white-space:nowrap;
+
+    margin-bottom:0;
+}
+
+    </style>
+    
+</head>
+
+<script>
+
+        function ViewPackages(id)
+        {
+              window.location.href="/UserShowPackageService?pid="+id;
+        }
+        
+       function OwnerDetail()
+       {
+              var oid1 =new URLSearchParams(window.location.search).get("oid");
+              var formdata=new FormData();
+              formdata.append("oid2",oid1);
+              var url="/ViewOwnerDetails";
+              fetch(url,
+              {
+                   method:"POST",
+                   body:formdata
+              })
+                      .then(response=>response.text())
+                      .then(ans=>renderAsHTML1(ans));
+       }
+       
+         function renderAsHTML1(ans)
+         {
+                   var data=JSON.parse(ans);
+                   var data2=data.ans;
+
+                   document.getElementById("heading1").innerHTML=data2[0].shopname;
+                   document.getElementById("salon-image").src=data2[0].shopphoto;  
+                   document.getElementById("salon-desc").innerHTML=data2[0].shopdesc;
+                   document.getElementById("exp").innerHTML=data2[0].experience;
+                   document.getElementById("head1").innerHTML="Explore "+data2[0].shopname;  
+                   document.getElementById("s-name").innerHTML=data2[0].shopname;
+                   document.getElementById("owner-name").innerHTML="By "+data2[0].ownername;
+                   document.getElementById("owner-photo").src=data2[0].ownerphoto;
+                   document.getElementById("time").innerHTML=data2[0].starttime+"-"+data2[0].endtime;
+                   
+                   var latitude=data2[0].latitude;
+                   var longitude=data2[0].longitude;
+                   
+                   console.log(latitude);
+                   console.log(longitude);
+                   document.getElementById("mapFrame").src =
+             `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
+         }
+ 
+           function ShopDetail()
+           {
+              var oid1 =new URLSearchParams(window.location.search).get("oid");
+              var formdata=new FormData();
+              formdata.append("oid3",oid1);
+              var url="/ViewShopDetails";
+              fetch(url,
+              {
+                   method:"POST",
+                   body:formdata
+              })
+                      .then(response=>response.text())
+                      .then(ans=>renderAsHTML2(ans));
+           }
+       
+  function renderAsHTML2(ans)
+{
+    var data = JSON.parse(ans);
+    var data2 = data.ans;
+
+    console.log(data2);
+
+    var card = "";
+
+    card += "<div class='row g-3'>";
+
+    // LEFT BIG IMAGE
+    card += "<div class='col-lg-6'>";
+
+    card += "<div class='gallery-item gallery-large'>";
+
+    card += `<img src='${data2[0].photo}'
+             class='gallery-img'
+             alt=''>`;
+
+    card += "<div class='gallery-overlay'>";
+
+    card += `<a href='${data2[0].photo}'
+             class='btn btn-primary btn-lg-square'
+             data-lightbox='SalonGallery'>`;
+
+    card += "<i class='fa fa-eye'></i>";
+
+    card += "</a>";
+
+    card += "</div>";
+
+    card += "</div>";
+
+    card += "</div>";
+
+
+
+    // RIGHT SIDE
+    card += "<div class='col-lg-6'>";
+
+    card += "<div class='row g-3'>";
+
+
+
+    // TOP 2 IMAGES
+    for(var i=1; i<=2; i++)
+    {
+        card += "<div class='col-6'>";
+
+        card += "<div class='gallery-item gallery-small'>";
+
+        card += `<img src='${data2[i].photo}'
+                 class='gallery-img'
+                 alt=''>`;
+
+        card += "<div class='gallery-overlay'>";
+
+        card += `<a href='${data2[i].photo}'
+                 class='btn btn-primary btn-lg-square'
+                 data-lightbox='SalonGallery'>`;
+
+        card += "<i class='fa fa-eye'></i>";
+
+        card += "</a>";
+
+        card += "</div>";
+
+        card += "</div>";
+
+        card += "</div>";
+    }
+
+
+    // BOTTOM WIDE IMAGE
+    card += "<div class='col-12'>";
+
+    card += "<div class='gallery-item gallery-small'>";
+
+    card += `<img src='${data2[3].photo}'
+             class='gallery-img'
+             alt=''>`;
+
+    card += "<div class='gallery-overlay'>";
+
+    card += `<a href='${data2[3].photo}'
+             class='btn btn-primary btn-lg-square'
+             data-lightbox='SalonGallery'>`;
+
+    card += "<i class='fa fa-eye'></i>";
+
+    card += "</a>";
+
+    card += "</div>";
+
+    card += "</div>";
+
+    card += "</div>";
+
+    card += "</div>";
+
+    card += "</div>";
+
+    card += "</div>";
+
+    document.getElementById("showPhotos").innerHTML = card;
+}
+
+        function PackageDetail()
+       {
+              var oid1 =new URLSearchParams(window.location.search).get("oid");
+              var formdata=new FormData();
+              formdata.append("oid4",oid1);
+              var url="/ViewPackageDetails";
+              fetch(url,
+              {
+                   method:"POST",
+                   body:formdata
+              })
+                      .then(response=>response.text())
+                      .then(ans=>renderAsHTML3(ans));
+       }
+       
+function renderAsHTML3(ans)
+{
+    var data = JSON.parse(ans);
+    var data2 = data.ans;
+
+    console.log(data2);
+
+    var packageHTML = "";
+    var serviceHTML = "";
+
+    packageHTML += "<div class='row g-4'>";
+    serviceHTML += "<div class='row g-4'>";
+
+    for(var i=0; i<data2.length; i++)
+    {
+        var obj = data2[i];
+
+        var card = "";
+
+        card += "<div class='col-md-6 col-lg-3 wow fadeIn' data-wow-delay='0.1s'>";
+        card += "<div class='team-item position-relative overflow-hidden'>";
+//        card+="<h3>"+obj.packagename+"</h3>";
+        card += `<img class='img-fluid w-100' src='${obj.packagephoto}' alt=''>`;
+     
+       card += "<div class='text-center p-3 bg-white'>";
+
+card += "<div class='mb-3'>";
+//card += "<del class='text-muted fs-5 me-2'>₹"+obj.price+"</del>";
+//card += "<span class='text-primary fw-bold fs-5'>₹"+obj.offerprice+"</span>";
+card += "</div>";
+
+card += `<button class='s-btn1' type='button'
+onclick='ViewPackages(${obj.packageid})'>${obj.packagename}</button>`;
+
+card += "</div>";
+        card += "</div>";
+        card += "</div>";
+
+        if(obj.type === "Package")
+        {
+            packageHTML += card;
+        }
+        else if(obj.type === "Service")
+        {
+            serviceHTML += card;
+        }
+    }
+
+    packageHTML += "</div>";
+    serviceHTML += "</div>";
+
+    document.getElementById("showPackages").innerHTML = packageHTML;
+    document.getElementById("showServices").innerHTML = serviceHTML;
+    
+}
+
+    
+</script>
+    
+<body onload="OwnerDetail(); ShopDetail(); PackageDetail()">
+
+    <!-- Navbar Start -->
+    <div th:replace=" UserFragment:: userheader">
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Hero Start -->
+    <div class="container-fluid bg-light page-header py-5 mb-5">
+        <div class="container text-center py-5">
+            <h1 class="display-1 animated slideInLeft " id="s-name"></h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center animated slideInLeft mb-0">
+<!--                    <li class="breadcrumb-item"><a class="text-primary" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-primary" href="#">Pages</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>-->
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Hero End -->
+
+    
+ <!-- About Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.2s">
+                    <img class="img-fluid mb-3" id="salon-image" src="" alt="">
+                    <div class="d-flex align-items-center bg-light">
+                        
+                        <div class="owner-box">
+
+    <img id="owner-photo" 
+         class="img-fluid rounded-circle">
+
+    <div class="px-2">
+
+        <h3 id="owner-name"></h3>
+
+    </div>
+
+</div>
+                        
+ </div>
+</div>
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    <h1 class="font-dancing-script text-primary" id="heading1"></h1>
+                    <h1 class="mb-5">Why People Choose Us!</h1>
+                    <p class="mb-4" id="salon-desc"></p>
+                    <div class="timing-box">
+
+<!--    <h4>Opening Hours</h4>-->
+
+    <h5 ></h5>
+
+</div>
+                    <div class="row g-3 mb-5">
+
+    <!-- Experience Box -->
+    <div class="col-sm-6">
+
+        <div class="bg-light text-center p-4 same-box">
+
+            <i class="fas fa-calendar-alt fa-4x text-primary mb-3"></i>
+
+            <h1 class="display-5" data-toggle="counter-up" id="exp"></h1>
+
+            <p class="text-dark text-uppercase mb-0">
+                Years Experience
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Opening Hours Box -->
+    <div class="col-sm-6">
+
+        <div class="opening-box same-box">
+
+            <i class="far fa-clock clock-icon"></i>
+
+            <h3 class="opening-title">
+                Opening Hours
+            </h3>
+
+            <p class="opening-days">
+                Monday - Saturday
+            </p>
+
+            <h4 class="opening-time" id="time">
+                
+            </h4>
+
+        </div>
+
+    </div>
+
+</div>
+<!--             <a class="btn btn-primary text-uppercase px-5 py-3" href="">Read More</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->      
+                 
+     <!-- Team Start -->
+    <div class="container-fluid overflow-hidden py-5">
+    <div class="container">
+
+        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+            <h1 class="font-dancing-script text-primary"> Our Services </h1>
+
+            <h1 class="mb-5"> Explore our Services </h1>
+        </div>
+
+        <div id="showServices">   
+        </div>
+        
+    </div>
+</div>
+    <!-- Team End -->
+    
+      <!-- Team Start -->
+     <div class="container-fluid overflow-hidden py-5">
+    <div class="container">
+
+        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+            <h1 class="font-dancing-script text-primary" >Our Packages </h1>
+
+            <h1 class="mb-5">Explore our Packages</h1>
+        </div>
+
+        <div id="showPackages"></div>
+
+    </div>
+</div>
+    <!-- Team End -->
+    
+      <!-- Gallery Start -->
+    <div class="container-fluid gallery py-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+                <h1 class="font-dancing-script text-primary">Our Ambience</h1>
+                <h1 class="mb-5" id="head1"></h1>
+            </div>
+           
+            <div id="showPhotos"></div>
+            
+        </div>
+    </div>
+    <!-- Gallery End -->
+
+
+<!-- Google Maps --> 
+<div class="container-fluid py-5">
+    <div class="map-heading container my-5">
+    
+  <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+           <h1 class="font-dancing-script text-primary">Visit Us</h1>
+
+           <h1 class="mb-5">Experience Beauty Near You</h1>
+        </div>
+
+    <iframe
+        id="mapFrame"
+        width="100%"
+        height="450"
+        style="border:0; border-radius:10px;"
+        loading="lazy"
+        allowfullscreen>
+    </iframe>
+
+    </div>
+</div>
+<!-- Google Maps -->   
+    
+    <!-- Footer Start -->
+    <div th:replace="UserFragment:: userfooter">
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Copyright Start -->
+     <div class="container-fluid bg-dark text-white border-top border-secondary py-4 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Urban Glow</a>, All Right Reserved.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+<!--                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>.
+                    Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Salon - Beauty Salon Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+<style>
+          
+ .package-heading
+{
+    font-size:18px;
+    color:#555;
+    line-height:1.9;
+    margin-bottom:18px;
+    font-weight:500;
+}
+
+.package-points
+{
+    padding-left:0;
+    margin-top:10px;
+}
+
+.package-points li
+{
+    list-style:none;
+    position:relative;
+    padding-left:32px;
+    margin-bottom:14px;
+    font-size:17px;
+    color:#666;
+    line-height:1.8;
+    transition:0.3s;
+}
+
+.package-points li::before
+{
+    content:"✦";
+    position:absolute;
+    left:0;
+    top:1px;
+    color:#c08a6d;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.package-points li
+{
+    list-style:none;
+    position:relative;
+    padding-left:28px;
+    margin-bottom:4px;
+    font-size:17px;
+    color:#666;
+    line-height:1.3;
+}
+
+.price-box
+{
+    margin-top:25px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.original-price
+{
+    font-size:22px;
+    color:#999;
+    font-weight:500;
+}
+
+.offer-price
+{
+    font-size:34px;
+    color:#c08a6d;
+    font-weight:700;
+}
+
+.booking-panel
+{
+    background:white;
+    padding:55px;
+    border-radius:25px;
+    box-shadow:0 0 35px rgba(0,0,0,0.08);
+}
+
+.booking-heading
+{
+    font-size:60px;
+    margin-bottom:18px;
+}
+
+.booking-subheading
+{
+    color:#666;
+    font-size:22px;
+    line-height:1.8;
+    margin-bottom:40px;
+}
+
+.form-floating .form-control
+{
+    height:65px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    box-shadow:none !important;
+    font-size:17px;
+    padding-left:15px;
+}
+
+.form-floating textarea.form-control
+{
+    height:120px !important;
+    padding-top:25px;
+}
+
+.book-btn1
+{
+    background:#c08a6d;
+    color:white;
+    border:none;
+    padding:14px 35px;
+    border-radius:10px;
+    font-size:18px;
+    transition:0.3s;
+}
+
+.book-btn1:hover
+{
+    background:#a97155;
+    transform:translateY(-2px);
+}
+
+    </style>
+</head>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="js/Razorpay.js" type="text/javascript"></script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+        <script>
+
+
+            function paymentlogic(pkid1,umode)
+            {
+  var unm=document.getElementById("unm").value;
+                 var udate=document.getElementById("udate").value;
+                 var utime=document.getElementById("utime").value;
+                 var uaddress=document.getElementById("uaddress").value;
+                 
+                if(unm==="" || udate==="" || utime==="" || uaddress==="")
+               {
+                       Swal.fire({
+    title: "Incomplete Form",
+    text: "Please fill all the required details.",
+    icon: "warning",
+    confirmButtonColor: "#d63384",
+    background: "#fff"
+});
+
+return false;
+               }
+
+var total = document.getElementById("oprice").innerHTML;
+
+                var options = {
+                    "key": "rzp_test_96HeaVmgRvbrfT",
+                    "amount": total + "00",
+                    "name": "URBAN GLOW",
+                    "description": "",
+                    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOmghn1er2yRA0yXfMRmroSSpWEdAGNV5KHg&usqp=CAU",
+                    "handler": function (response) {
+
+                        if (response.razorpay_payment_id == "" || response.razorpay_payment_id == undefined) {
+
+                            window.location.href = "payment_action?status=failed";
+                            // paymentfail(authormobile,"Payment failed!");
+
+//                            alert("Payment Failed")
+
+                        } else {
+//success
+Booking1(pkid1,umode);
+                            //payment success
+                            //call your book payment function here
+                        }
+                    },
+                    "prefill": {
+                        "name": "",
+                        "email": ""
+                    },
+                    "notes": {
+                        "address": ""
+                    },
+                    "theme": {
+                        "color": "#F37254"
+                    },
+                    "modal": {
+                        "ondismiss": function () {
+                            $("#statusmodal").modal("show");
+                            document.getElementById("status").innerHTML = "Payment failed ! Try again";
+                        }
+                    }
+                };
+
+
+                var rzp1 = new Razorpay(options);
+                rzp1.on('payment.failed', function (response) {
+                    console.log("a2");
+                    console.log(response.error.code);
+
+//                    alert("Payment Failed");
+
+
+                    // paymentfail(authormobile,"Payment failed!");
+                    // rzp1.close();
+                    // alert(response.error.code);
+                    // alert(response.error.description);
+                    // alert(response.error.source);
+                    // alert(response.error.step);
+                    // alert(response.error.reason);
+                    // alert(response.error.metadata.order_id);
+                    // alert(response.error.metadata.payment_id);
+
+                });
+                rzp1.open();
+            }
+
+        </script>
+
+<script>
+    
+         function Booking1(pkid1,umode)
+         {                                              
+                 var unm=document.getElementById("unm").value;
+                 var udate=document.getElementById("udate").value;
+                 var utime=document.getElementById("utime").value;
+                 var uaddress=document.getElementById("uaddress").value;
+                 
+                if(unm==="" || udate==="" || utime==="" || uaddress==="")
+               {
+                       Swal.fire({
+    title: "Incomplete Form",
+    text: "Please fill all the required details.",
+    icon: "warning",
+    confirmButtonColor: "#d63384",
+    background: "#fff"
+});
+               }
+               else
+               {
+                 var formdata=new FormData();
+                 formdata.append("unm",unm);
+                 formdata.append("udate",udate);
+                 formdata.append("utime",utime);
+                 formdata.append("umode",umode);
+                 formdata.append("uaddress",uaddress);
+                 formdata.append("upackageid",pkid1);
+                 
+                 var url="/CheckUserBooking";
+                fetch(url,
+                {
+                   method:"POST",
+                   body:formdata
+                })
+               .then(response=>response.text())
+                         .then(ans=>renderAsHTML(ans));
+                
+         }
+     }
+           function renderAsHTML(ans)
+         {
+              console.log(ans);
+                if(ans==="success")
+                {
+                     Swal.fire({
+            title: "Booking Request Submitted!",
+            text: "Your booking request has been sent successfully.",
+            icon: "success",
+            confirmButtonColor: "#d63384"       
+      })
+          .then(() =>
+            {
+                 window.location.href="/";
+            });
+                }
+                else
+                {
+                      Swal.fire({
+            title: "Booking Request Failed",
+            text: "Unable to submit your booking request. Please try again",
+            icon: "error",
+            confirmButtonColor: "#d63384"
+      });
+                }
+         }
+         
+        function ShowPackageDetail()
+        {
+                var pid1=new URLSearchParams(window.location.search).get("pid");
+                 var formdata=new FormData();
+                 formdata.append("pid1",pid1);
+                
+                 var url="/CheckPackageServiceDetails";
+                fetch(url,
+                {
+                   method:"POST",
+                   body:formdata
+                })
+               .then(response=>response.text())
+                         .then(ans=>renderAsHTML1(ans));
+                  
+                var today = new Date().toISOString().split('T')[0];
+
+                document.getElementById("udate").min = today;
+         }
+    
+         function renderAsHTML1(ans)
+         {
+             console.log(ans);
+                   var data=JSON.parse(ans);
+                   var data2=data.ans;   
+                   console.log(data2);
+                   
+                   document.getElementById("pkimage").src=data2[0].packagephoto;
+                   document.getElementById("heading1").innerHTML=data2[0].packagename;
+                   document.getElementById("phead").innerHTML=data2[0].packagename;
+                   document.getElementById("price").innerHTML="₹"+data2[0].price;
+                   document.getElementById("oprice").innerHTML=data2[0].offerprice;
+                    
+                   var desc = data2[0].packagedesc;
+
+                     var s = "";
+
+                    if(desc.includes("•"))
+                    {
+                        var parts = desc.split("•");
+                        s += "<p class='package-heading'>" + parts[0] + "</p>";
+                        s += "<ul class='package-points'>";
+                         for(var i=1; i<parts.length; i++)
+                        {
+                                if(parts[i].trim() !== "")
+                               {
+                                     s += "<li>" + parts[i].trim() + "</li>";
+                               }
+                         }
+                           s += "</ul>";
+                     }
+                       else
+                      {
+                          s = "<p class='package-heading'>" + desc + "</p>";
+                      }
+
+                   document.getElementById("pkdesc").innerHTML = s;
+                   document.getElementById("book1").innerHTML=` <button class='book-btn1' type='button' onclick='paymentlogic(${data2[0].packageid},"online")'>Pay Online</button>`;
+                   document.getElementById("book2").innerHTML=` <button class='book-btn1' type='button' onclick='Booking1(${data2[0].packageid},"cash")'>Pay By Cash</button>`;
+                   
+         }
+               
+          
+</script>
+    
+    
+<body onload="ShowPackageDetail()">
+
+    <!-- Navbar Start -->
+    <div th:replace=" UserFragment:: userheader">
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Hero Start -->
+    <div class="container-fluid bg-light page-header py-5 mb-5">
+        <div class="container text-center py-5">
+            <h1 class="display-1 animated slideInLeft" id="phead"></h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center animated slideInLeft mb-0">
+<!--                    <li class="breadcrumb-item"><a class="text-primary" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-primary" href="#">Pages</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>-->
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Hero End -->
+
+     <!-- About Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.2s">
+                    <img class="img-fluid mb-3" id="pkimage" src="" alt="">
+                    <div class="d-flex align-items-center bg-light">
+<!--                        <div class="btn-square flex-shrink-0 bg-primary" style="width: 100px; height: 100px;">
+                            <i class="fa fa-envelope fa-2x text-dark"></i>
+                        </div>
+                        <div class="px-3">
+                            <h3 id="owner-email"></h3>
+                            <span>Email us to get a free consultation</span>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    <h1 class="font-dancing-script text-primary" id="heading1"></h1>
+                    <p class="mb-4" id="pkdesc"></p>
+                    <div class="row g-3 mb-5">
+                        <div class="col-sm-6">   
+                        </div>
+                        
+    
+               <div class="price-box">
+                  <del class='original-price' id="price"></del>
+                  <span class="offer-price" id="oprice"></span>
+               </div>
+ 
+                                    
+             </div>
+<!--         <a class="btn btn-primary text-uppercase px-5 py-3" href="">Read More</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->      
+
+       <!-- Contact Start -->
+  <div class="container-fluid py-5">
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8">
+
+                <div class="booking-panel wow fadeIn" data-wow-delay="0.2s">
+
+                    <div class="text-center">
+
+                        <h1 class="font-dancing-script text-primary">Booking Panel</h1>
+                        <p class="booking-subheading">
+                            Please Enter below Information to
+                            Book the Service/Package.
+                        </p>
+
+                    </div>
+
+                    <form>
+
+                        <div class="row g-4">
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+
+                                    <input type="text"
+                                    class="form-control"
+                                    id="unm"
+                                    placeholder="Enter Name">
+
+                                    <label for="unm">
+                                        Enter Name
+                                    </label>
+
+                                </div>
+                            </div>
+
+                           
+                            <div class="col-md-6">
+                                <div class="form-floating">
+
+                                    <input type="date"
+                                    class="form-control"
+                                    id="udate"
+                                    placeholder="Enter Booking Date">
+
+                                    <label for="udate">
+                                        Enter Booking Date
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+
+                                    <input type="time"
+                                    class="form-control"
+                                    id="utime"
+                                    placeholder="Enter Booking Time">
+
+                                    <label for="utime">
+                                        Enter Booking Time
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-floating">
+
+                                    <textarea
+                                    class="form-control"
+                                    id="uaddress"
+                                    style="height:120px"
+                                    placeholder="Enter Address"></textarea>
+
+                                    <label for="uaddress">
+                                        Enter Address
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="col-12 d-flex justify-content-center gap-3 mt-3">
+
+                                <div id="book1"></div>
+
+                                <div id="book2"></div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- Contact End -->
+                        
+                        
+    
+    <!-- Footer Start -->
+    <div th:replace="UserFragment:: userfooter">
+    </div>
+    <!-- Footer End -->
+
+
+     <!-- Copyright Start -->
+     <div class="container-fluid bg-dark text-white border-top border-secondary py-4 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Urban Glow</a>, All Right Reserved.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+<!--                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>.
+                    Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Salon - Beauty Salon Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <style>
+       .user-login{
+    background:#c08a6d;
+    color:white;
+    border:none;
+    padding:10px 28px;
+    border-radius:5px;
+    transition:0.3s;
+
+    display:block;
+    margin:20px 15px 10px 10px;
+}
+          .user-login:hover{
+              background:#a97155;
+          }
+          
+          .user-login2{
+              background:#c08a6d;
+              color:white;
+              border:none;
+              margin-top:30px;
+              margin-bottom: 10px;
+              padding:10px 28px;
+              border-radius:5px;
+              transition:0.3s;
+             
+          }
+
+          .user-login2:hover{
+              background:#a97155;
+          }
+          
+    </style>
+</head>
+
+
+<script>
+
+          function Signup()
+          {
+                window.location.href="UserSignup";
+          }
+          
+        function ULogin()
+        {
+              var uemail=document.getElementById("uemail").value;
+              var upass=document.getElementById("upass").value;
+              
+               if(uemail==="" || upass==="")
+               {
+                       Swal.fire({
+    title: "Incomplete Form",
+    text: "Please fill Both the required details.",
+    icon: "warning",
+    confirmButtonColor: "#d63384",
+    background: "#fff"
+});
+               }
+                           
+               else
+               {
+                 var formdata=new FormData();
+                 formdata.append("uemail",uemail);
+                 formdata.append("upass",upass);
+                
+                 var url="/CheckUserLogin";
+                fetch(url,
+                {
+                   method:"POST",
+                   body:formdata
+                })
+               .then(response=>response.text())
+                         .then(ans=>renderAsHTML(ans));
+             }
+    }
+         function renderAsHTML(ans)
+         {
+                console.log(ans);
+               if(ans==="success")
+               {
+                      Swal.fire({
+                title: "Welcome Back!",
+                text: "Login Successful",
+                icon: "success",
+                confirmButtonColor: "#d63384"
+            }).then(() =>
+            {
+                 window.location.href="/";
+            });
+               }
+               else
+               {
+                     Swal.fire({
+                title: "Login Failed",
+                text: "Invalid Email or Password",
+                icon: "error",
+                confirmButtonColor: "#d63384"
+            }); 
+               }
+         }
+
+         
+      
+</script>
+    
+    
+<body>
+
+    <!-- Navbar Start -->
+    <div th:replace=" UserFragment:: userheader">
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Hero Start -->
+    <div class="container-fluid bg-light page-header py-5 mb-5">
+        <div class="container text-center py-5">
+            <h1 class="display-1 animated slideInLeft"> Login Form</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center animated slideInLeft mb-0">
+<!--                    <li class="breadcrumb-item"><a class="text-primary" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-primary" href="#">Pages</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>-->
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Hero End -->
+
+
+    <!-- Contact Start -->
+        <div class="container-fluid py-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="font-dancing-script text-primary mb-4">Login Form </h1>
+                <h1 class="mb-4"></h1>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <h5 class="text-center mb-4">   Please Enter your Login Credentials below..<a href="https://htmlcodex.com/contact-form"></a>.</h5>
+                    <div class="wow fadeIn" data-wow-delay="0.3s">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="uemail" placeholder="Enter Email">
+                                        <label for="uemail">Enter Email</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input type="password" class="form-control" id="upass" placeholder="Enter password">
+                                        <label for="upass">Enter Password</label>
+                                    </div>
+                                </div>
+                   
+                                <div class="col-12">
+                                    <button class="user-login" type="button" onclick="ULogin()">Login</button>
+                                </div>
+                                
+                                 <div class="d-flex align-items-center gap-2">
+                                  <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <h5>Didn't Have an Account ?  -></h5>
+                                    </div>
+                                </div>
+                                
+                                 <div class="col-2">
+                                    <button class="user-login2" type="button" onclick="Signup()">Signup</button>
+                                 </div>
+                                
+                                 </div>
+                                
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+                          
+                        
+    <!-- Footer Start -->
+    <div th:replace="UserFragment:: userfooter">
+    </div>
+    <!-- Footer End -->
+
+ <!-- Copyright Start -->
+     <div class="container-fluid bg-dark text-white border-top border-secondary py-4 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Urban Glow</a>, All Right Reserved.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+<!--                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>.
+                    Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+    
+     <script th:if="${msg != null}">
+    Swal.fire({
+        icon: 'warning',
+        title: 'Login Required',
+        text: '[[${msg}]]'
+    });
+</script>
+
+</body>
+
+</html>

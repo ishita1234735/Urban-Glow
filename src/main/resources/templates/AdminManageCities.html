@@ -1,0 +1,424 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Salone - Beauty Salon Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <style>
+        
+        .admin-btn1{
+            background:#c08a6d;
+            color:white;
+            border:none;
+            margin-top: 25px;
+            padding:12px 40px;
+            border-radius:8px;
+            font-size:16px;
+            font-weight:600;
+            box-shadow:0 5px 15px rgba(192,138,109,0.3);
+            transition:0.3s;
+        }
+
+        .admin-btn1:hover{
+            background:#a97155;
+            transform:translateY(-3px);
+        }
+        
+        .admin-btn2
+        {
+            background:#c08a6d;
+            color:white;
+            border:none;
+            margin-top: 20px;
+            padding:10px 24px;
+            border-radius:5px;
+            font-size:15px;
+            font-weight:600;
+            box-shadow:0 4px 12px rgba(192,138,109,0.25);
+            transition:0.3s;
+        }
+
+       .admin-btn2:hover
+       {
+          background:#a97155;
+          transform:translateY(-2px);
+          box-shadow:0 8px 18px rgba(169,113,85,0.3);
+       }
+       
+        .font-dancing-script{
+    margin-bottom:2px !important;
+}
+
+        .table-wrapper{
+    background:#fff;
+    padding:10px 25px 25px 25px;
+    border-radius:30px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.05);
+      margin-top:5px;
+}
+.custom-table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+}
+ .custom-table thead{
+    background:#c69272;
+    color:white;
+}
+
+.custom-table th{
+    padding:22px;
+    font-size:18px;
+    font-weight:600;
+    border:none;
+}
+
+.custom-table td{
+    padding:22px;
+    border-bottom:1px solid #f1ece7;
+    vertical-align:middle;
+    background:white;
+}
+
+.custom-table tbody tr:hover{
+    background:#fff8f3;
+}
+         .city-img1
+         {
+           width:120px;
+            height:80px;
+           object-fit:cover;
+            border-radius:10px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.08);
+         }
+         
+textarea.form-control{
+    height:100px !important;
+}
+         
+    </style>
+</head>
+
+<script>
+    
+           function addCity()
+           {
+                   var cityname=document.getElementById("cn").value;
+                   var citydesc=document.getElementById("cd").value;
+                   var cityphoto=document.getElementById("cp").files[0];
+                   
+                   if(cityname===""|| citydesc==="" ||!cityphoto)
+                   {
+                          Swal.fire({
+    title: "Incomplete Form",
+    text: "Please fill in all the required details.",
+    icon: "warning",
+    confirmButtonColor: "#d63384",
+    background: "#fff"
+});
+                   }
+                   
+               else
+               {      
+                   var formdata=new FormData();
+                   
+                   formdata.append("cname",cityname);
+                   formdata.append("cdesc",citydesc);
+                   formdata.append("cphoto",cityphoto);
+                   
+                    var url="/CheckAdminManageCities";
+                    fetch(url,
+                    {
+                         method:"POST",
+                         body:formdata
+                    })
+                    
+                       .then(response=>response.text())
+                         .then(ans=>renderAsHTML(ans));
+              }
+           }
+               function renderAsHTML(ans)
+               {
+                       if(ans==="success")
+                       {
+                             Swal.fire({
+                            title: "Success!",
+                            text: "City Added Successfully",
+                            icon: "success",
+                            confirmButtonColor: "#d63384"
+      });
+
+                               showData();
+                       }
+                       else
+                       {
+                              Swal.fire({
+            title: "Oops!",
+            text: "City Already Exists",
+            icon: "error",
+            confirmButtonColor: "#d63384"
+      });
+                       }
+                     
+               }
+               
+                function showData() 
+                {
+                      var url="/ViewAdminManageCities";
+                      fetch(url)
+                      .then(response=>response.text())
+                      .then(ans2=>renderAsHTML1(ans2));
+                 
+                }
+                
+                function deleteData(id)
+                {
+                         console.log(id);
+                         var formdata=new FormData();
+                         formdata.append("id_del",id);
+                         
+                        var url="/DeleteAdminCity";
+                        
+                        fetch(url,
+                        {
+                             method:"POST",
+                             body:formdata
+                        })
+                                .then(response=>response.text())
+                                .then(ans3=>renderHTML(ans3));
+                            
+                }
+                
+                function renderHTML(ans3)
+                {
+                        if(ans3 === "success")
+{
+    Swal.fire({
+        icon: 'success',
+        title: 'Deleted!',
+        text: 'City deleted successfully.',
+        confirmButtonColor: '#d63384'
+    });
+
+    showData();
+}
+else
+{
+    Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'City could not be deleted.',
+        confirmButtonColor: '#d63384'
+    });
+}
+                }
+                 
+                 function renderAsHTML1(ans2)
+                 { 
+                    console.log(ans2);  
+                    var data=JSON.parse(ans2);
+                    
+                    var data2=data.ans;
+                    
+                    console.log(data2);
+                    
+                    var s="";
+                   s=s+"<div class='table-wrapper'>";
+                    s=s+"<table class='custom-table'>";
+                   s=s+"<h4 class='text-center mt-5 mb-3 heading22'></h4>";
+                  
+                    s=s+"<thead>";
+                    s=s+"<tr>";
+                    
+                    s=s+"<th>City Name</th>";
+                    s=s+"<th>City Description</th>";
+                    s=s+"<th>City Photo</th>";
+                    s=s+"<th>Delete</th>";
+                    
+                    s=s+"</tr>";
+                     s=s+"</thead>";
+                  
+                  s=s+"<tbody>";
+                    for(var i=0; i<data2.length; i++)
+                   {
+                         var obj=data2[i];
+                        
+                          s=s+"<tr>";
+                             
+                             s=s+"<td>"+obj.cityname+"</td>";
+                             s=s+"<td>"+obj.citydesc+"</td>";
+                             s=s+`<td> <img class='city-img1' src='${obj.cityphoto}'></td>`;
+                           
+                             s=s+`<td> <button class='admin-btn2' type='button' onclick='deleteData(${obj.cityid})'>Delete</button> </td>`;
+                             
+                           s=s+"</tr>";
+                   }
+                      s=s+"</tbody>";
+                      s=s+"</table>";
+                      s=s+"</div>";
+                      console.log(s);
+                      document.getElementById("check2").innerHTML=s;
+            }
+              
+               
+</script>
+
+
+<body onload="showData()">
+
+    <!-- Navbar Start -->
+    <div th:replace=AdminFragment::adminheader>        
+    </div>
+    <!-- Navbar End -->
+
+      <!-- Hero Start -->
+    <div class="container-fluid bg-light page-header py-5 mb-5">
+        <div class="container text-center py-5">
+            <h1 class="display-1 animated slideInLeft">Admin Manage Cities</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center animated slideInLeft mb-0">
+<!--                    <li class="breadcrumb-item"><a class="text-primary" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-primary" href="#">Pages</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>
+                </ol>-->
+            </nav>
+        </div>
+    </div>
+    <!-- Hero End -->
+    
+    <!-- Contact Start -->
+       <div class="container-fluid pt-3 pb-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="font-dancing-script text-primary mb-3">Admin Manage Cities</h1>
+               <h1 class="mb-4"></h1>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <h4 class="text-center mb-4">Kindly Enter City Details Below...<a href="https://htmlcodex.com/contact-form"></a></h4>
+                     <div class="wow fadeIn form-box" data-wow-delay="0.3s">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="cn" placeholder="City Name">
+                                        <label for="cn">City Name</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                       <textarea class="form-control" id="cd" placeholder="City Description"></textarea>
+                                        <label for="cd">City Description</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input type="file" class="form-control" id="cp" placeholder="City photo">
+                                        <label for="cp"> City Photo</label>
+                                    </div>
+                                </div>
+   
+                                <div class="col-12 text-center mt-3">
+                                       <button class="admin-btn1" type="button"onclick="addCity()">Add City</button>
+                                 </div>
+                                    
+                            </div>
+                        </form>     
+                          
+                    </div>
+                </div>
+                
+             <div class="container-fluid pt-4 pb-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="font-dancing-script text-primary mb-2">
+    View Already added Cities
+</h1>
+            </div>
+            <div id="check2"></div>
+        </div>
+ </div>
+                                
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Start -->
+    <div th:replace="AdminFragment::adminfooter">
+    </div>
+    <!-- Footer End -->
+    
+     <!-- Copyright Start -->
+     <div class="container-fluid bg-dark text-white border-top border-secondary py-4 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Urban Glow</a>, All Right Reserved.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+<!--                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>.
+                    Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

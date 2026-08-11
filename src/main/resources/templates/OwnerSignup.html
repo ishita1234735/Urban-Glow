@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Salon - Beauty Salon Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <style>
+        
+        .select1
+        {
+            width:100%;
+            height:58px;
+            background:#fff;
+            border:1px solid #ced4da;
+            color:#6c757d;
+            padding:10px 15px;
+        }
+
+         .owner-btn1{
+              background:#c08a6d;
+              color:white;
+              border:none;
+              margin-top:20px;
+              margin-bottom: 10px;
+              padding:12px 28px;
+              border-radius:5px;
+              transition:0.3s;
+          }
+
+          .owner-btn1:hover{
+              background:#a97155;
+          }
+        
+           .owner-btn2{
+              background:#c08a6d;
+              color:white;
+              border:none;
+              margin-top:2px;
+              padding:12px 28px;
+              border-radius:5px;
+              transition:0.3s;
+          }
+
+          .owner-btn2:hover{
+              background:#a97155;
+          }
+          
+          .map-box{
+    border:1px solid #ccc;
+    padding:15px;
+    border-radius:10px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.map-btn{
+    padding:10px 18px;
+    border-radius:8px;
+    border:1px solid black;
+    background:white;
+    cursor:pointer;
+    white-space: nowrap;
+
+}
+
+input[type="time"]::-webkit-datetime-edit-fields-wrapper
+{
+    display:none;
+}
+
+input[type="time"]:focus::-webkit-datetime-edit-fields-wrapper,
+input[type="time"]:valid::-webkit-datetime-edit-fields-wrapper
+{
+    display:block;
+}
+
+    </style>
+    
+    
+</head>
+
+
+<script>
+
+function openMap()
+{
+     document.getElementById("mapdiv").style.display="block";
+
+     var map = L.map('mapdiv').setView([28.61,77.20], 13);
+
+     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+     }).addTo(map);
+
+     map.on('click', function(e)
+     {
+          var lat = e.latlng.lat;
+          var lng = e.latlng.lng;
+
+          document.getElementById("shoplatitude").value = lat;
+
+          document.getElementById("shoplongitude").value = lng;
+     });
+}
+       
+        function Login1()
+        {
+              window.location.href="OwnerLogin";
+        }
+        
+        function Signup()
+        {
+              var full_name=document.getElementById("fullname").value;
+              var email=document.getElementById("email").value;
+              var password=document.getElementById("pass").value;
+              var profile_photo=document.getElementById("profilephoto").files[0];
+              var shop_name=document.getElementById("shopname").value;
+              var cid=document.getElementById("cid").value;
+              var shop_desc=document.getElementById("shopdesc").value;
+              var shop_photo=document.getElementById("shopphoto").files[0];
+              var otime=document.getElementById("openingtime").value;
+              var ctime=document.getElementById("closingtime").value;
+              var experience=document.getElementById("experience").value;
+              var shop_latitude=document.getElementById("shoplatitude").value;
+              var shop_longitude=document.getElementById("shoplongitude").value;
+              
+//              alert(cid)
+              
+             var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if(full_name==="" || email==="" || password===""|| !profile_photo|| shop_name===""|| cid===""|| shop_desc===""||!shop_photo|| otime===""|| ctime===""|| experience==="" ||shop_longitude==="" || shop_latitude==="")
+{
+      Swal.fire({
+          title: "Incomplete Form",
+          text: "Please fill in all the required details.",
+          icon: "warning",
+          confirmButtonColor: "#d63384",
+          background: "#fff"
+      });
+}
+
+else if(!emailPattern.test(email))
+{
+      Swal.fire({
+          title: "Invalid Email",
+          text: "Please enter a valid email address.",
+          icon: "error",
+          confirmButtonColor: "#d63384",
+          background: "#fff"
+      });
+}
+
+              
+               else
+               {
+                var formdata=new FormData();
+              
+                formdata.append("fname",full_name);
+                formdata.append("email",email);
+                formdata.append("pass",password);
+                formdata.append("pphoto",profile_photo);
+                formdata.append("sname",shop_name);
+                formdata.append("scity",cid);
+                formdata.append("sdesc",shop_desc);
+                formdata.append("sphoto",shop_photo);
+                formdata.append("otime", otime);
+                formdata.append("ctime",ctime);
+                formdata.append("experience",experience);
+                formdata.append("slatitude",shop_latitude);
+                formdata.append("slongitude",shop_longitude);
+                
+                 var url="/AddOwnerSignup";
+                fetch(url,
+                {
+                   method:"POST",
+                   body:formdata
+                })
+               .then(response=>response.text())
+                         .then(ans=>renderAsHTML(ans));
+             }
+    }
+         function renderAsHTML(ans)
+         {
+                console.log(ans);
+               if(ans==="success")
+               {
+                  Swal.fire({
+            title: "Account Created!",
+            text: "Registration Successful",
+            icon: "success",
+            confirmButtonColor: "#d63384"
+      }).then(() =>
+            {
+                 window.location.href="/OwnerLogin";
+            });
+               }
+               else
+               {
+                     Swal.fire({
+            title: "Registration Failed",
+            text: "Unable to create Account. Please try again.",
+            icon: "error",
+            confirmButtonColor: "#d63384"
+      });
+               }
+           }
+           
+            function cityDropdown()
+            {
+                     var url="/AddCityDropDown";
+                      fetch(url)
+                      .then(response=>response.text())
+                      .then(ans2=>renderAsHTML2(ans2));
+            }
+            
+            function renderAsHTML2(ans2)
+            {
+                    var data=JSON.parse(ans2);
+                    
+                    var data2=data.ans;
+                    
+                    console.log(data2);
+                    
+                    var s="";
+                    
+                    s=s+"<div class='form-floating'>";
+                    s=s+"<select class='select1' id='cid' value='Select City'>";
+                    for(var i=0; i<data2.length; i++)
+                    {
+                          var obj=data2[i];
+                          s=s+"<option value="+obj.cityid+">"+obj.cityname+"</option>";
+                    }
+                    
+                     s=s+"</select>";
+                     s=s+"</div>";
+                     document.getElementById("showdropdown").innerHTML=s;
+            }
+           
+          
+</script>
+    
+    
+<body onload="cityDropdown()">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Navbar Start -->
+    <div th:replace="SalonOwnerFragment:: salonownerheader">
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Hero Start -->
+    <div class="container-fluid bg-light page-header py-5 mb-5">
+        <div class="container text-center py-5">
+            <h1 class="display-1 animated slideInLeft">Owner Register Panel</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center animated slideInLeft mb-0">
+<!--                    <li class="breadcrumb-item"><a class="text-primary" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-primary" href="#">Pages</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>-->
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Hero End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="font-dancing-script text-primary mb-4">Owner Register</h1>
+                <h1 ></h1>
+            </div>  
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <h4 class="text-center mb-5">Kindly Enter fields to Register below...<a href="https://htmlcodex.com/contact-form"></a></h4>
+                    <div class="wow fadeIn" data-wow-delay="0.3s">
+                        <form>
+                            
+                              <div class="row g-3">
+                                  <div class="col-md-12">
+                                      <h4> Personal Details </h4>
+                                   </div>
+                               </div>
+                                
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="fullname" placeholder="Enter Full name">
+                                        <label for="fullname">Full Name</label>
+                                    </div>
+                              </div>
+                                                  
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="email" placeholder="Enter Email Address">
+                                        <label for="email">Email Address</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="password" class="form-control" id="pass" placeholder="Enter Password">
+                                        <label for="pass">Password</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="file" class="form-control" id="profilephoto" placeholder="Enter Profile Photo">
+                                        <label for="profilephoto">Profile photo</label>
+                                    </div> 
+                                </div>
+                                
+                                <div class="row g-3">
+                                  <div class="col-md-12">
+                                      <h4> Shop Credentials </h4>
+                                   </div>
+                                </div>  
+                                
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="shopname" placeholder="Enter Shop name">
+                                        <label for="shopname">Shop Name</label>
+                                    </div>
+                                </div>
+                               
+                                    <div class="col-md-6" id="showdropdown" style="height:58px">
+                                    </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" id="shopdesc" style="height: 88px" placeholder="Enter Shop Description"></textarea>
+                                        <label for="shopdesc">Write something inviting your shop..</label>
+                                    </div>
+                                </div>
+                                
+                                   <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input type="file" class="form-control" id="shopphoto" placeholder="Enter Shop Photo">
+                                        <label for="shopphoto">Shop Photo</label>
+                                    </div>
+                                  </div>
+                                 
+                                <div class="row g-3">
+                                  <div class="col-md-12">
+                                      <h4> Operation and Location </h4>
+                                   </div>
+                                </div> 
+                                
+                                  <div class="col-md-4">
+                                    <div class="form-floating">
+                                      <input type="time" class="form-control" id="openingtime">
+                                        <label for="openingtime">Opening Time</label>
+                                      </div>
+                                   </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                       <input type="time" class="form-control" id="closingtime">
+                                        <label for="closingtime">Closing Time</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="experience" placeholder="Enter Experience">
+                                        <label for="experience">Experience</label>
+                                    </div>
+                                </div>
+                         
+                             <div class="map-box">
+                                <span>If you are currently at your shop, click below to autofill coordinates. Otherwise, Enter them Manually below..</span>
+                                <button class="map-btn" type="button" onclick="openMap()">
+                                <i class="bi bi-geo-alt-fill"></i>Pick on Map
+                                </button>
+                              </div>
+                                
+                                
+<div id="mapdiv" 
+style="height:400px; width:100%; display:none; margin-top:10px;">
+</div>
+                    
+                                 <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="shoplatitude" placeholder="Enter Shop Latitude">
+                                        <label for="shoplatitude">Shop Latitude</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="shoplongitude" placeholder="Enter Shop Longitude">
+                                        <label for="shoplongitude">Shop Longitude</label>
+                                    </div>
+                                </div>
+                             
+                                  <div class="col-4">
+                                    <button class="owner-btn1" type="button" onclick="Signup()">Complete Registration</button>
+                                  </div>
+                                
+                                <div class="d-flex align-items-center gap-2">
+                                  <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <h5>Already have an Account ?  -></h5>
+                                    </div>
+                                </div>
+                                
+                                 <div class="col-2">
+                                    <button class="owner-btn2" type="button" onclick="Login1()">Login</button>
+                                 </div>
+                                
+                          </div>
+                      </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Contact End -->
+                        
+                        
+    <!-- Footer Start -->
+    <div th:replace="SalonOwnerFragment:: salonownerfooter">
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Copyright Start -->
+     <div class="container-fluid bg-dark text-white border-top border-secondary py-4 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Urban Glow</a>, All Right Reserved.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+<!--                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>.
+                    Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

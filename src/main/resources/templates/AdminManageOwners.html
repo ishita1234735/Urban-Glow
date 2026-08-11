@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Salon - Beauty Salon Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <style>
+           
+    .a-btn2
+    {
+    background:#c08a6d;
+    color:white;
+    border:none;
+    padding:10px 28px;
+    border-radius:5px;
+    transition:0.3s;
+
+    display:block;
+    margin:20px 15px 10px 10px;
+}
+          .a-btn2:hover
+          {
+              background:#a97155;
+          }
+          
+  .booking-card
+{
+    background:white;
+    padding:35px;
+    border-radius:25px;
+    box-shadow:0 0 35px rgba(0,0,0,0.08);
+    overflow-x:auto;
+}
+
+.booking-table
+{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+}
+
+.booking-table thead
+{
+    background:#c08a6d;
+}
+
+.booking-table thead th
+{
+    color:white;
+    padding:18px;
+    font-size:17px;
+    font-weight:600;
+    border:none;
+}
+
+.booking-table tbody td
+{
+    padding:18px;
+    vertical-align:middle;
+    border-bottom:1px solid #f1f1f1;
+    font-size:16px;
+    color:#666;
+}
+
+.booking-table tbody tr
+{
+    transition:0.3s;
+}
+
+.booking-table tbody tr:hover
+{
+    background:#faf7f4;
+}
+
+.status-badge
+{
+    background:#fff3cd;
+    color:#856404;
+    padding:8px 16px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:600;
+}
+
+  .o-img
+{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:10px;
+    border:1px solid #c08a6d;
+}
+
+.s-img1
+{
+    width:160px;
+    height:130px;
+    object-fit:cover;
+    border-radius:10px;
+    border:1px solid #c08a6d;
+}
+
+    </style>
+</head>
+
+
+<script>
+    
+ function OwnerStatus(ownerid1)
+{
+        var url="/CheckAdminApproval";
+
+        var formdata=new FormData();
+        formdata.append("ownerid1",ownerid1);
+
+        fetch(url,
+        {
+              method:"POST",
+              body:formdata
+        })
+        .then(response => response.text())
+        .then(ans =>
+        {
+              AdminManageOwners();
+        });
+}
+        
+      
+        function AdminManageOwners()
+        {          
+                var url="/CheckAdminManageOwners";
+                fetch(url)
+               .then(response=>response.text())
+                         .then(ans=>renderAsHTML(ans));
+        }
+        
+         function renderAsHTML(ans)
+         {
+                    console.log(ans); 
+                    var data=JSON.parse(ans);
+                    
+                    var data2=data.ans;
+                    
+                    console.log(data2);
+                    
+                    var s="";
+         
+                    s=s+"<div class='booking-card'>";
+                    s=s+ "<table class='booking-table'>";
+                    s=s+"<h2 class='text-center mb-4'></h2>";
+                    s=s+"<thead>";
+                    s=s+"<tr>";
+
+                    s=s+"<th>Owner Name</th>";
+//                    s=s+"<th>Owner Email</th>";
+                    s=s+"<th>Owner Photo</th>";
+                    s=s+"<th>Shop Photo</th>";
+                    s=s+"<th>Shop Name</th>";
+//                    s=s+"<th>Shop Description</th>";
+                    s=s+"<th>Latitude</th>";
+                    s=s+"<th>Longitude</th>";
+                    s=s+"<th>Start Time</th>";
+                    s=s+"<th>End Time</th>";
+                    s=s+"<th>Experience</th>";
+                    s=s+"<th>Status</th>";
+                      
+                    s=s+"</tr>";
+                    s=s+"</thead>";
+                  
+                     s=s+"<tbody>";
+                    for(var i=0; i<data2.length; i++)
+                   {
+                         var obj=data2[i];
+//                         console.log(obj.ownerid);
+                         
+                          s=s+"<tr>";
+                          
+                             s=s+"<td>"+obj.ownername+"</td>";
+//                             s=s+"<td>"+obj.owneremail+"</td>";
+                             s=s+`<td> <img class='o-img' src='${obj.ownerphoto}'></td>`;
+                             s=s+`<td> <img class='s-img1' src='${obj.shopphoto}'></td>`;
+                             s=s+"<td>"+obj.shopname+"</td>";
+//                             s=s+"<td>"+obj.shopdesc+"</td>";
+                             s=s+"<td>"+obj.latitude+"</td>";
+                             s=s+"<td>"+obj.longitude+"</td>";
+                             s=s+"<td>"+obj.starttime+"</td>";
+                             s=s+"<td>"+obj.endtime+"</td>";
+                             s=s+"<td>"+obj.experience+"</td>";
+                            
+                             if(obj.status==="Pending")
+                             {
+                                  s=s+`<td> <button class='a-btn2' type='button' onclick='OwnerStatus(${obj.ownerid})'>Approve</button> </td>`;
+                             }
+                            
+                             else                                                 
+                             {
+                                  s=s+`<td> <button class='a-btn2' type='button' onclick='OwnerStatus(${obj.ownerid})'>Pending</button> </td>`;
+                             }
+                             
+                           s=s+"</tr>";
+                   }
+                      s=s+"</tbody>";
+                      s=s+"</table>";
+                      s += "</div>";
+                      console.log(s);
+                      document.getElementById("showadminowners").innerHTML=s;
+         }
+
+       
+</script>
+    
+    
+<body onload="AdminManageOwners()">
+
+    <!-- Navbar Start -->
+    <div th:replace=" AdminFragment:: adminheader">
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Hero Start -->
+    <div class="container-fluid bg-light page-header py-5 mb-5">
+        <div class="container text-center py-5">
+            <h1 class="display-1 animated slideInLeft">Owner Details</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center animated slideInLeft mb-0">
+<!--                    <li class="breadcrumb-item"><a class="text-primary" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-primary" href="#">Pages</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>-->
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Hero End -->
+                          
+ <div class="container-fluid py-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="font-dancing-script text-primary">View Owner Details</h1>
+                <h1 class="mb-5"></h1>
+            </div>
+            <div id="showadminowners"></div>
+        </div>
+ </div>
+                        
+    <!-- Footer Start -->
+    <div th:replace="AdminFragment:: adminfooter">
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Copyright Start -->
+     <div class="container-fluid bg-dark text-white border-top border-secondary py-4 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Urban Glow</a>, All Right Reserved.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+<!--                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>.
+                    Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
+

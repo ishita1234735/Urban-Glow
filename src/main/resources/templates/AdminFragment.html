@@ -1,0 +1,132 @@
+<div th:fragment="adminheader">
+     <div class="container-fluid bg-light sticky-top p-0">
+        <nav class="navbar navbar-expand-lg navbar-light p-0">
+            <a class="navbar-brand bg-primary py-4 px-5 me-0">
+                <h1 class="mb-0"><i class="bi bi-scissors"></i>Urban Glow</h1>
+            </a>
+            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse"
+                data-bs-target="#navbarCollapse">
+                  <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse p-3" id="navbarCollapse">
+                <div class="navbar-nav mx-auto">
+
+    <a href="/" class="nav-item nav-link active">Home</a>
+
+    <!-- AGAR Admin LOGIN NAHI HAI -->
+    <div th:if="${session.admin_email== null}" class="d-flex">
+
+        <!-- Admin -->
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                User
+            </a>
+
+            <div class="dropdown-menu bg-light mt-2">
+                <a href="UserSignup" class="dropdown-item">Signup</a>
+                <a href="UserLogin" class="dropdown-item">Login</a>
+            </div>
+            
+        </div>
+
+        <!-- OWNER -->
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                Owner
+            </a>
+
+            <div class="dropdown-menu bg-light mt-2">
+                <a href="OwnerSignup" class="dropdown-item">Signup</a>
+                <a href="OwnerLogin" class="dropdown-item">Login</a>
+            </div>
+        </div>
+
+        <!-- ADMIN -->
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                Admin
+            </a>
+
+            <div class="dropdown-menu bg-light mt-2">
+                <a href="AdminLogin" class="dropdown-item">Login</a>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div th:if="${session.admin_email != null}" class="d-flex align-items-center">
+
+        <span class="nav-item nav-link text-dark fw-bold">
+            Welcome, [[${session.admin_email}]]
+        </span>
+
+        <a href="AdminLogout" class="nav-item nav-link text-danger">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+                <div class="d-flex">
+<!--                    <a class="btn btn-primary btn-sm-square me-3" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-primary btn-sm-square me-3" href=""><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-primary btn-sm-square" href=""><i class="fab fa-linkedin-in"></i></a>-->
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<div th:fragment="adminfooter">
+    <div class="container-fluid footer position-relative bg-dark text-white-50 py-5 wow fadeIn" data-wow-delay="0.2s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-6 pe-lg-5">
+                    <a href="/" class="navbar-brand">
+                        <h1 class="display-5 text-primary mb-0"><i class="bi bi-scissors"></i>Urban Glow</h1>
+                     </a>
+                     <p></p>
+                     <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i>Amritsar, Punjab, India</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-2"></i>+91 98765 43210</p>
+                    <p><i class="fa fa-envelope me-2"></i>support@urbanglow.com</p>
+                    <div class="d-flex justify-content-start mt-4">
+                        <a class="btn btn-sm-square btn-primary me-3" href="#"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-sm-square btn-primary me-3" href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-sm-square btn-primary me-3" href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="btn btn-sm-square btn-primary me-3" href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-6 ps-lg-5">
+                    <div class="row g-4">
+                        <div class="col-sm-6">
+                            <h5 class="text-primary mb-4">Quick Links</h5>
+                            <a class="btn btn-link" href="#">About Us</a>
+                            <a class="btn btn-link" href="#">Contact Us</a>
+                            <a class="btn btn-link" href="#">Our Services</a>
+                            <a class="btn btn-link" href="#">Terms & Condition</a>
+                        </div>
+                        <div class="col-sm-6">
+                            <h5 class="text-primary mb-4">Popular Links</h5>
+                            <a class="btn btn-link" href="#">About Us</a>
+                            <a class="btn btn-link" href="#">Contact Us</a>
+                            <a class="btn btn-link" href="#">Our Services</a>
+                            <a class="btn btn-link" href="#">Terms & Condition</a>
+                        </div>
+                        <div class="col-sm-12">
+                            <h5 class="text-primary mb-4">Newsletter</h5>
+                            <div class="position-relative w-100 mb-2">
+                                <input class="form-control bg-secondary border-0 w-100 ps-4 pe-5" type="text"
+                                    placeholder="Enter Your Email" style="height: 60px;">
+                                <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-2 me-2"><i
+                                        class="fa fa-paper-plane text-primary fs-4"></i></button>
+                            </div>
+                            <p class="mb-0">Subscribe to receive beauty tips, salon updates, and latest offers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

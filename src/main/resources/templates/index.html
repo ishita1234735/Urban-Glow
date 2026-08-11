@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Salone - Beauty Salon Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+    .c-card
+  {
+     background:#f8f6f4;
+    padding:40px 25px;
+    border-radius:5px;
+     border-top:2px solid #c08a6d;
+    position:relative;
+    margin:15px;
+    transition:0.4s;
+    box-shadow:0 8px 25px rgba(0,0,0,0.06);
+}
+/* hover effect */
+.c-card:hover{
+    transform:translateY(-12px);
+    box-shadow:0 18px 35px rgba(0,0,0,0.12);
+}
+
+.c-icon{
+    color:#b88646;
+    font-size:22px;
+    margin-bottom:15px;
+    position:relative;
+    z-index:2;
+}
+
+
+.c-img{
+   
+    width:360px!important;
+    height:300px !important;
+    object-fit:cover;
+    border-radius:10px;
+    border:2px solid #e5e5e5;
+    position:relative;
+    z-index:2;
+    display:block;
+    margin:20px auto;
+    transition:0.4s;
+}
+.c-btn{
+    margin-top:25px;
+    background:#c08a6d;
+    color:white;
+    border:none;
+    padding:12px 28px;
+    transition:0.3s;
+    position:relative;
+    z-index:2;
+}
+
+.c-btn:hover{
+    background:#a97155;
+}
+
+</style>
+</head>
+
+<script>
+    
+        function ShowSalon(id)
+        {
+              window.location.href="/OwnerSalon?cid="+id;
+        }
+        
+        function ShowCity()
+        {
+               var url="/ShowCityData";
+               fetch(url)
+                .then(response=>response.text())
+                         .then(ans=>renderHTML(ans));
+        }
+        
+        function renderHTML(ans2)
+        {
+            var s="";
+            s=s+"<div class='container-fluid py-2'>";
+            s=s+" <div class='container'>";
+            s=s+"<div class='text-center wow fadeIn' data-wow-delay='0.2s'>";
+            s=s+"<h1 class='font-dancing-script text-primary'>Cities</h1>";
+            s=s+" <h1 class='mb-5'>Explore Salons in Various Cities</h1>";
+            s=s+" </div>";
+            s=s+" <div class='owl-carousel testimonial-carousel wow fadeIn' data-wow-delay='0.3s'>";
+            
+//             loop starts
+
+                   var data=JSON.parse(ans2);
+                   var data2=data.ans;
+                    
+                   console.log(data2);
+                   
+                 for(var i=0; i<data2.length; i++)
+                 {
+                    var obj=data2[i];
+                        s+=`<div class='c-card text-center'>
+                        <i class='fa fa-map-marker-alt c-icon'></i>
+                        <img class='c-img' src='${obj.cityphoto}' alt=''>
+                       <button class='c-btn' type='button' onclick='ShowSalon(${obj.cityid})'>${obj.cityname}</button>
+                        </div>`;     
+                 }
+                 //loop ends   
+                 
+          s=s+"</div>";      
+            
+        s=s+"</div>";
+       s=s+"</div>";
+      document.getElementById("CityData").innerHTML=s;
+     
+     $('.testimonial-carousel').owlCarousel({
+    autoplay:true,
+    smartSpeed:1000,
+    items:3,
+    loop:true,
+    dots:true,
+    nav:true,
+    margin:15,
+     navText : [
+        '<i class="bi bi-arrow-left "></i>',
+        '<i class="bi bi-arrow-right "></i>'
+    ]
+    });
+        
+ }
+
+
+</script>
+
+<body onload="ShowCity()">
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Navbar Start -->
+    <div th:replace=UserFragment::userheader>        
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Hero Start -->
+    <div class="container-fluid p-0 hero-header bg-light mb-5">
+        <div class="container p-0">
+            <div class="row g-0 align-items-center">
+                <div class="col-lg-6 hero-header-text py-5">
+                    <div class="py-5 px-3 ps-lg-0">
+                        <h1 class="font-dancing-script text-primary animated slideInLeft">Welcome</h1>
+                        <h1 class="display-1 mb-4 animated slideInLeft">Beauty Salon Fashion for Women</h1>
+                        <div class="row g-4 animated slideInLeft">
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="owl-carousel header-carousel animated fadeIn">
+                        <img class="img-fluid" src="img/hero-slider-1.jpg" alt="">
+                        <img class="img-fluid" src="img/hero-slider-2.jpg" alt="">
+                        <img class="img-fluid" src="img/hero-slider-3.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero End -->
+
+
+    <!-- Service Start -->
+    <div class="container-fluid service py-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="font-dancing-script text-primary">Our Services</h1>
+                <h1 class="mb-5">Explore Our Services</h1>
+            </div>
+            <div class="row g-4 g-md-0 text-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-item h-100 p-4 border-bottom border-end wow fadeIn" data-wow-delay="0.1s">
+                        <img class="img-fluid" src="img/haircut.png" alt="">
+                        <h3 class="mb-3">Haircut</h3>
+                        <p class="mb-3">Professional haircut services with trendy styles, smooth finishing, and personalized looks for every hair type.</p>
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-item h-100 p-4 border-bottom border-lg-end wow fadeIn" data-wow-delay="0.3s">
+                        <img class="img-fluid" src="img/makeup.png" alt="">
+                        <h3 class="mb-3">Makeup</h3>
+                        <p class="mb-3">Enhance your beauty with elegant makeup services designed for parties, weddings, and special occasions.</p>
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-item h-100 p-4 border-bottom border-end border-lg-end-0 wow fadeIn"
+                        data-wow-delay="0.5s">
+                        <img class="img-fluid" src="img/manicure.png" alt="">
+                        <h3 class="mb-3">Manicure</h3>
+                        <p class="mb-3">Pamper your hands with relaxing manicure treatments for clean, healthy, and beautiful-looking nails.</p>
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-item h-100 p-4 border-bottom border-lg-bottom-0 border-lg-end wow fadeIn"
+                        data-wow-delay="0.1s">
+                        <img class="img-fluid" src="img/pedicure.png" alt="">
+                        <h3 class="mb-3">Pedicure</h3>
+                        <p class="mb-3">Refresh your feet with soothing pedicure services that provide cleanliness, care, and relaxation.</p>
+<!--                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
+                                class="bi bi-arrow-right"></i></a>-->
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-item h-100 p-4 border-end wow fadeIn" data-wow-delay="0.3s">
+                        <img class="img-fluid" src="img/massage.png" alt="">
+                        <h3 class="mb-3">Massage</h3>
+                        <p class="mb-3">Relax your body and mind with comfortable massage therapies that help reduce stress and tiredness.</p>
+<!--                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
+                                class="bi bi-arrow-right"></i></a>-->
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-item h-100 p-4 wow fadeIn" data-wow-delay="0.5s">
+                        <img class="img-fluid" src="img/skin-care.png" alt="">
+                        <h3 class="mb-3">Skin Care</h3>
+                        <p class="mb-3">Improve your skin health with nourishing skincare treatments for a fresh, glowing, and radiant look.</p>
+<!--                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
+                                class="bi bi-arrow-right"></i></a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+
+
+    <!-- Testimonial Start -->
+        <div id="CityData">       
+        </div>
+    <!-- Testimonial End -->
+    
+    <!-- Gallery Start -->
+    <div class="container-fluid gallery py-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+                <h1 class="font-dancing-script text-primary">Gallery</h1>
+                <h1 class="mb-5">Explore Our Gallery</h1>
+            </div>
+            <div class="row g-0">
+                <div class="col-md-6 wow fadeIn" data-wow-delay="0.2s">
+                    <div class="gallery-item h-100">
+                        <img src="img/gallery-1.jpg" class="img-fluid w-100 h-100" alt="">
+                        <div class="gallery-icon">
+                            <a href="img/gallery-1.jpg" class="btn btn-primary btn-lg-square"
+                                data-lightbox="Gallery-1"><i class="fa fa-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 wow fadeIn" data-wow-delay="0.4s">
+                    <div class="gallery-item h-100">
+                        <img src="img/gallery-2.jpg" class="img-fluid w-100 h-100" alt="">
+                        <div class="gallery-icon">
+                            <a href="img/gallery-2.jpg" class="btn btn-primary btn-lg-square"
+                                data-lightbox="Gallery-2"><i class="fa fa-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 wow fadeIn" data-wow-delay="0.6s">
+                    <div class="gallery-item h-100">
+                        <img src="img/gallery-3.jpg" class="img-fluid w-100 h-100" alt="">
+                        <div class="gallery-icon">
+                            <a href="img/gallery-3.jpg" class="btn btn-primary btn-lg-square"
+                                data-lightbox="Gallery-3"><i class="fa fa-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 wow fadeIn" data-wow-delay="0.2s">
+                    <div class="gallery-item h-100">
+                        <img src="img/gallery-4.jpg" class="img-fluid w-100 h-100" alt="">
+                        <div class="gallery-icon">
+                            <a href="img/gallery-4.jpg" class="btn btn-primary btn-lg-square"
+                                data-lightbox="Gallery-4"><i class="fa fa-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 wow fadeIn" data-wow-delay="0.4s">
+                    <div class="gallery-item h-100">
+                        <img src="img/gallery-5.jpg" class="img-fluid w-100 h-100" alt="">
+                        <div class="gallery-icon">
+                            <a href="img/gallery-5.jpg" class="btn btn-primary btn-lg-square"
+                                data-lightbox="Gallery-5"><i class="fa fa-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 wow fadeIn" data-wow-delay="0.6s">
+                    <div class="gallery-item h-100">
+                        <img src="img/gallery-6.jpg" class="img-fluid w-100 h-100" alt="">
+                        <div class="gallery-icon">
+                            <a href="img/gallery-6.jpg" class="btn btn-primary btn-lg-square"
+                                data-lightbox="Gallery-6"><i class="fa fa-eye"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Gallery End -->
+
+
+    <!-- Footer Start -->
+    <div th:replace="UserFragment::userfooter">
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Copyright Start -->
+    <div class="container-fluid bg-dark text-white border-top border-secondary py-4 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Urban Glow</a>, All Right Reserved.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+<!--                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>.
+                    Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

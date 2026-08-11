@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Salon - Beauty Salon Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<style>
+    .testimonial-carousel .owl-item::before,
+.testimonial-carousel .owl-item::after,
+.testimonial-carousel .c-card::before,
+.testimonial-carousel .c-card::after
+{
+    display:none !important;
+    content:none !important;
+}
+
+
+.c-card
+{
+    background:#f8f6f4;
+    padding:5px !important;;
+    border-radius:20px;
+    border-top:1px solid #c08a6d;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.06);
+    width:100%;
+    margin:35px;
+}
+.c-icon
+{
+    color:#c79a63;
+    font-size:28px;
+    margin-bottom:20px;
+}
+
+.c-img
+{
+    width:100%;
+    height:260px;
+    object-fit:cover;
+    border-radius:15px;
+    margin-bottom:20px;
+}
+  .c-btn{
+              background:#c08a6d;
+              color:white;
+              border:none;
+              margin-top:30px;
+              margin-bottom: 10px;
+              padding:10px 28px;
+              border-radius:5px;
+              transition:0.3s;
+             
+          }
+
+          .c-btn:hover{
+              background:#a97155;
+          }
+          
+          .owl-nav
+{
+    text-align:center;
+    margin-top:25px;
+}
+
+.owl-nav button
+{
+    width:45px;
+    height:45px;
+    border-radius:50% !important;
+    background:#c08a6d !important;
+    color:white !important;
+    font-size:20px !important;
+    margin:0 8px;
+    border:none !important;
+    transition:0.3s;
+}
+
+.owl-nav button:hover
+{
+    background:#a97155 !important;
+}
+
+.owl-nav button i
+{
+    line-height:45px;
+}
+
+.owl-dots
+{
+    margin-top:15px;
+}
+
+</style>
+    
+<script>
+
+        function SalonDetails(id)
+        {
+              window.location.href="UserSalonDetail?oid="+id;
+        }
+        
+       function Salons()
+       {
+              var cid1 =new URLSearchParams(window.location.search).get("cid");
+              var formdata=new FormData();
+              formdata.append("cid2",cid1);
+              var url="/ViewSalons";
+              fetch(url,
+              {
+                   method:"POST",
+                   body:formdata
+              })
+                      .then(response=>response.text())
+                      .then(ans=>renderAsHTML(ans));
+       }
+       
+ function renderAsHTML(ans2)
+{
+      console.log(ans2);
+
+      var s="";
+
+            s=s+"<div class='container-fluid py-2'>";
+            s=s+" <div class='container'>";
+            s=s+"<div class='text-center wow fadeIn' data-wow-delay='0.2s'>";
+
+      var data=JSON.parse(ans2);
+
+      var data2=data.ans;
+
+    if(data2.length===0)
+{
+      document.getElementById("ShowSalons").innerHTML=
+      `
+      <div class='text-center py-5'>
+            <h3>No Salons Available</h3>
+      </div>
+      `;
+
+      return;
+}
+      console.log(data2);
+s += "<div class='row justify-content-center'>";
+ for(var i=0; i<data2.length; i++)
+{
+      var obj=data2[i];
+   s+=`
+<div class='col-lg-4 col-md-6'>
+
+    <div class='c-card text-center'>
+
+        <img class='c-img'
+        src='${obj.shopphoto}' alt=''>
+
+        <button class='c-btn'
+        type='button'
+        onclick='SalonDetails(${obj.ownerid})'>
+
+            ${obj.shopname}
+
+        </button>
+
+    </div>
+
+</div>
+`;
+            
+}
+s += "</div>";
+      s=s+"</div>";
+      s=s+"</div>";
+      s=s+"</div>";
+
+      document.getElementById("ShowSalons").innerHTML=s;
+}
+
+ 
+    
+</script>
+    
+<body onload="Salons()">
+
+    <!-- Navbar Start -->
+    <div th:replace=" UserFragment:: userheader">
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Hero Start -->
+    <div class="container-fluid bg-light page-header py-5 mb-5">
+        <div class="container text-center py-5">
+            <h1 class="display-1 animated slideInLeft">Explore Premium Salons</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center animated slideInLeft mb-0">
+<!--                    <li class="breadcrumb-item"><a class="text-primary" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-primary" href="#">Pages</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>-->
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Hero End -->
+
+    <!-- Contact Start -->
+        <div class="container-fluid py-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="font-dancing-script text-primary mb-4">Explore Salons</h1>
+                <h1 class=""> </h1>
+            </div>
+           <div class="row justify-content-center">
+    <div class="col-lg-10">
+                    <h4 class="text-center mb-3 mt-1"> Below are the Featured Salons.<a href="https://htmlcodex.com/contact-form"></a>.</h4>
+                    
+                   <div class="wow fadeIn" data-wow-delay="0.3s">
+                   <div id="ShowSalons"></div>
+                   </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+                          
+                        
+    <!-- Footer Start -->
+    <div th:replace="UserFragment:: userfooter">
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Copyright Start -->
+     <div class="container-fluid bg-dark text-white border-top border-secondary py-4 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Urban Glow</a>, All Right Reserved.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+<!--                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>.
+                    Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

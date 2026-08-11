@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Salon - Beauty Salon Website</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        
+      
+         .add-service1{
+             background-color:#c69272;
+              color:white;
+              border:none;
+              margin-top:20px;
+              margin-bottom: 10px;
+              padding:10px 28px;
+              border-radius:5px;
+              transition:0.3s;
+               display:block;
+               margin: auto;
+               margin-bottom: 20px;
+          }
+
+             .add-service1:hover{
+              background:#a97155;
+          }
+          .drop-down1
+        {
+            width:100%;
+            height:58px;
+            background:#fff;
+            border:1px solid #ced4da;
+            color:#6c757d;
+            padding:10px 15px;
+        }
+         .del-btn1
+         {
+              background:#c69272;
+              color:white;
+              border:none;
+              margin-top:20px;
+              margin-bottom: 10px;
+              padding:10px 28px;
+              border-radius:5px;
+              transition:0.3s;
+         }
+         
+          .del-btn1:hover{
+              background:#a97155;
+          }
+          
+           .table-wrapper{
+    background:#fff;
+    padding:10px 25px 25px 25px;
+    border-radius:30px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.05);
+      margin-top:5px;
+}
+.custom-table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+}
+ .custom-table thead{
+    background:#c69272;
+    color:white;
+}
+
+.custom-table th{
+    padding:22px;
+    font-size:18px;
+    font-weight:600;
+    border:none;
+}
+
+.custom-table td{
+    padding:22px;
+    border-bottom:1px solid #f1ece7;
+    vertical-align:middle;
+    background:white;
+}
+
+.custom-table tbody tr:hover{
+    background:#fff8f3;
+}
+
+.pkg-img
+{
+        width:200px;
+}
+
+
+    </style>
+</head>
+
+
+<script>
+
+        function AddDetails()
+        {
+              var servicename=document.getElementById("sname").value;
+              var servicedesc=document.getElementById("sdesc").value;
+              var servicephoto=document.getElementById("sphoto").files[0];
+              var serviceprice=document.getElementById("sprice").value;
+              var sofferprice=document.getElementById("sofferprice").value;
+              var stype=document.getElementById("stype").value;
+              
+               if(servicename==="" || servicedesc==="" || !servicephoto|| serviceprice==="" || sofferprice==="" || stype==="")
+               {
+                       Swal.fire({
+    title: "Incomplete Form",
+    text: "Please fill in all the required details.",
+    icon: "warning",
+    confirmButtonColor: "#d63384",
+    background: "#fff"
+});
+               }
+               
+  else if(isNaN(serviceprice) || isNaN(sofferprice))
+{
+      Swal.fire({
+          title: "Invalid Price",
+          text: "Please enter valid numeric prices.",
+          icon: "error",
+          confirmButtonColor: "#d63384",
+          background: "#fff"
+      });
+}
+
+else if(Number(sofferprice) > Number(serviceprice))
+{
+      Swal.fire({
+          title: "Invalid Offer Price",
+          text: "Offer price cannot be greater than original price.",
+          icon: "warning",
+          confirmButtonColor: "#d63384",
+          background: "#fff"
+      });
+}
+               else
+               {
+                   var formdata=new FormData();
+              
+                   formdata.append("servicename",servicename);
+                   formdata.append("servicedesc",servicedesc);
+                   formdata.append("servicephoto",servicephoto);
+                   formdata.append("serviceprice",serviceprice);
+                   formdata.append("sofferprice",sofferprice);
+                   formdata.append("stype",stype);
+              
+                var url="/AddServiceDetails";
+                fetch(url,
+                {
+                   method:"POST",
+                   body:formdata
+                })
+               .then(response=>response.text())
+                         .then(ans=>renderAsHTML(ans));
+             }
+    }
+    
+         function renderAsHTML(ans)
+         {
+              console.log(ans);
+               if(ans==="success")
+               {
+                      Swal.fire({
+            title: "Success!",
+            text: "Service Added Successfully",
+            icon: "success",
+            confirmButtonColor: "#d63384"
+      });
+
+      ShowData1();
+               }
+               else
+               {
+                      Swal.fire({
+            title: "Something Went Wrong",
+            text: "Service could not be added. Please try again.",
+            icon: "error",
+            confirmButtonColor: "#d63384"
+      });
+               
+         }
+     }
+                function deleteData(id)
+                {
+                        console.log(id);
+                         var formdata=new FormData();
+                         formdata.append("id_del1",id);
+                         
+                        var url="/DeleteService";
+                        
+                        fetch(url,
+                        {
+                             method:"POST",
+                             body:formdata
+                        })
+                                .then(response=>response.text())
+                                .then(ans3=>renderHTML(ans3));
+                            
+                }
+                
+          function renderHTML(ans3)
+         {
+                           if(ans3 === "success")
+{
+    Swal.fire({
+        icon: 'success',
+        title: 'Deleted!',
+        text: 'Service deleted successfully.',
+        confirmButtonColor: '#d63384'
+    });
+
+    ShowData1();
+}
+else
+{
+    Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Service could not be deleted.',
+        confirmButtonColor: '#d63384'
+    });
+}
+    }
+         
+          function ShowData1()
+         {
+                 var url="/ViewServiceDetails";
+                      fetch(url,
+                      {
+                          method:"POST"
+                      })
+                      .then(response=>response.text())
+                      .then(ans2=>renderAsHTML1(ans2));
+         }
+         
+          function renderAsHTML1(ans2)
+          {
+                   console.log(ans2);
+                   
+                    var data=JSON.parse(ans2);
+                    var data2=data.ans;
+                    
+                    var s="";
+        
+                   s = s+"<div class='table-wrapper'>";
+                   s = s+ "<table class='custom-table'>";
+                   
+                    s=s+"<thead>";
+                    s=s+"<tr>";
+                    
+                    s=s+"<th>Package Name</th>";
+                    s=s+"<th>Package Description</th>";
+                    s=s+"<th>Package Photo</th>";
+                    s=s+"<th>Price</th>";
+                    s=s+"<th>Offer Price</th>";
+                    s=s+"<th>Type</th>";
+                    s=s+"<th>Delete</th>";
+                    
+                    s=s+"</tr>";
+                     s=s+"</thead>";
+                  
+                  s=s+"<tbody>";
+                    for(var i=0; i<data2.length; i++)
+                   {
+                         var obj=data2[i];
+                        
+                          s=s+"<tr>";
+                             
+                             s=s+"<td>"+obj.packagename+"</td>";
+                             s=s+"<td>"+obj.packagedesc+"</td>";
+                             s=s+`<td><img class='pkg-img' src='${obj.packagephoto}'</td>`;
+                             s=s+"<td>"+obj.price+"</td>";
+                             s=s+"<td>"+obj.offerprice+"</td>";
+                             s=s+"<td>"+obj.type+"</td>";
+                             
+s=s+`<td><button class='del-btn1' type='button' onclick='deleteData(${obj.packageid})'>Delete</button></td>`;
+
+                         s=s+"</tr>";
+                   }
+                      s=s+"</tbody>";
+                      s=s+"</table>";
+                       s=s+ "</div>";
+                      console.log(s);
+                      document.getElementById("checkdata2").innerHTML=s;
+                 }
+          
+</script>
+    
+    
+<body onload="ShowData1()">
+    
+    <!-- Navbar Start -->
+    <div th:replace="SalonOwnerFragment:: salonownerheader">
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Hero Start -->
+    <div class="container-fluid bg-light page-header py-5 mb-5">
+        <div class="container text-center py-5">
+            <h1 class="display-1 animated slideInLeft">Service Details</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center animated slideInLeft mb-0">
+<!--                    <li class="breadcrumb-item"><a class="text-primary" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-primary" href="#">Pages</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>-->
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Hero End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="font-dancing-script text-primary mb-4">Service Details</h1>
+                <h1 class="mb-4"></h1>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <h4 class="text-center mb-4">Kindly Enter
+                        Service Details Below...<a href="https://htmlcodex.com/contact-form"></a></h4>
+                    <div class="wow fadeIn" data-wow-delay="0.3s">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="sname" placeholder="Enter Service name">
+                                        <label for="sname">Service Name</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" id="sdesc" style="height: 88px" placeholder="Enter password"></textarea>
+                                        <label for="sdesc">Service description</label>
+                                    </div>
+                                </div>
+                                
+                                 <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input type="file" class="form-control" id="sphoto" placeholder="Enter Service Photo">
+                                        <label for="sphoto">Service Photo</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                     <input type="text" class="form-control" id="sprice" placeholder="Enter Service Price">
+                                        <label for="sprice">Service Price</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                     <input type="text" class="form-control" id="sofferprice" placeholder="Enter Service Offer Price">
+                                        <label for="sofferprice">Service Offer Price</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <select class="drop-down1 "id="stype" value="Select type">
+                                            <option>Service</option>
+                                            <option>Package</option>
+                                        </select>
+                                    </div>
+                                </div>
+                             
+                          <div>
+                          <button class="add-service1" type="button" onclick="AddDetails()">Add Service</button>
+                          </div>   
+                          
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                      
+                   <div class="container-fluid pt-4 pb-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="font-dancing-script text-primary mb-2">
+    View Already Added Services/Packages
+</h1>
+            </div>
+            <div id="checkdata2"></div>
+        </div>
+ </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+
+
+    <!-- Footer Start -->
+    <div th:replace="SalonOwnerFragment::salonownerfooter">
+    </div>
+    <!-- Footer End -->
+    
+
+ <!-- Copyright Start -->
+     <div class="container-fluid bg-dark text-white border-top border-secondary py-4 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Urban Glow</a>, All Right Reserved.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+<!--                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>.
+                    Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
+
+

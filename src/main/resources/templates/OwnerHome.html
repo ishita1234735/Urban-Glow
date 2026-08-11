@@ -1,0 +1,243 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Salone - Beauty Salon Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Playfair+Display:wght@500&family=Work+Sans&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <style>
+         .cards-box1
+          {
+                 height:450px;
+                 margin:auto;
+                 background:#fff7f5;
+                 border-radius:20px;
+                 box-shadow:0 5px 20px rgba(0,0,0,0.05);
+                 transition:0.4s;
+                 border-top:2px solid #d4a373;
+                 box-shadow:0 5px 20px rgba(0,0,0,0.05);
+                 transition:0.4s;
+          }
+          
+          .cards-box1:hover{
+              transform: translateY(-10px);
+              box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+          }
+        
+            .owner-btn6{
+              background:#c08a6d;
+              color:white;
+              border:none;
+              padding:12px 28px;
+              border-radius:10px;
+              transition:0.3s;
+          }
+
+          .owner-btn6:hover{
+              background:#a97155;
+          }
+          
+          .card-fluid1
+          {
+              width:100%;
+              height:365px;
+              object-fit:cover;
+              border-radius:10px;
+          }
+          
+    </style>
+    
+</head>
+
+<script>
+      function ManageServices()
+      {
+             window.location.href="OwnerServiceDetails";
+      }
+      
+      function ManageBooking()
+      {
+              window.location.href="OwnerManageBooking";
+      }
+      
+      function ManagePhotos()
+      {
+             window.location.href="OwnerPhotos";
+      }
+       
+</script>
+    
+<body>
+    
+    <!-- Navbar Start -->
+    <div th:replace=SalonOwnerFragment::salonownerheader>        
+    </div>
+    <!-- Navbar End -->
+
+     <!-- Hero Start -->
+    <div class="container-fluid bg-light page-header py-5 mb-5">
+        <div class="container text-center py-5">
+            <h1 class="display-1 animated slideInLeft">Owner Home Page</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center animated slideInLeft mb-0">
+<!--                    <li class="breadcrumb-item"><a class="text-primary" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-primary" href="#">Pages</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Contact</li>-->
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Hero End -->
+
+      <!-- Testimonial Start -->
+      
+   <div class="container-fluid py-5">
+    <div class="container">
+
+        <!-- Heading -->
+        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+            <h1 class=" mb-5">Owner Home Panel</h1>
+<!--            <h2 class=" font-dancing-script text-primary mb-4">Your Salon Dashboard</h2>-->
+        </div>
+
+        <!-- Cards Row -->
+        <div class="row g-4">
+
+            <!-- Card 1 -->
+            <div class="col-md-4">
+              <div class="text-center">
+
+                    <!-- Box -->
+                    <div class="cards-box1 bg-light p-4 rounded">
+
+                        <h3 class="mb-4">Manage Services</h3>
+
+                        <img class="card-fluid1 p-3 mb-3" src="myphotos/mservices.png" alt="">
+
+                    </div>
+
+                    <!-- Outside Box -->
+                    <h5 class="mt-5"></h5>
+
+                    <button class="owner-btn6 mt-3"onclick="ManageServices()"> Add or Update Services/Packages</button>
+
+                </div>
+
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-md-4">
+              <div class="text-center">
+                 <div class=" cards-box1 bg-light p-4 rounded">
+                      <h3 class="mb-4">Manage Bookings</h3>
+
+                        <img class="card-fluid1 p-3 mb-3"
+                             src="myphotos/ManageBookings1.png"  alt="">
+                    </div>
+
+                    <h5 class="mt-5"> </h5>
+
+                    <button class="owner-btn6 mt-3" onclick="ManageBooking()"> Approve or deny Bookings </button>
+                  </div>
+             </div>
+
+            <!-- Card 3 -->
+            <div class="col-md-4">
+                  <div class="text-center">
+                         <div class="cards-box1 bg-light p-4 rounded">
+
+                        <h3 class="mb-4">Manage Photos</h3>
+
+                        <img class="card-fluid1 p-3 mb-3"
+                             src="myphotos/ManagePhotos1.png"  alt="">
+                         
+                       </div>
+
+                    <h5 class="mt-5"> </h5>
+
+                    <button class="owner-btn6 mt-3" onclick="ManagePhotos()">Add or Update Salon Photos</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+    <!-- Testimonial End -->
+
+
+    <!-- Footer Start -->
+    <div th:replace="SalonOwnerFragment::salonownerfooter">
+    </div>
+    <!-- Footer End -->
+
+     <!-- Copyright Start -->
+     <div class="container-fluid bg-dark text-white border-top border-secondary py-4 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Urban Glow</a>, All Right Reserved.
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
+                    <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
+                    <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+<!--                    Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>.
+                    Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Copyright End -->
+    
+    
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
