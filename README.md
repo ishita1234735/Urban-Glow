@@ -1,145 +1,420 @@
-# Urban-Glow
-A Spring Boot–based web application for managing and browsing salon services — server-rendered views with REST endpoints and static frontend assets. The project provides user, salon-owner, and admin flows (sign-up, login, listing, bookings and management pages) and is implemented with Java (Spring Boot) serving Thymeleaf templates and static HTML/CSS/JS.
+<h1 align="center">Urban Glow</h1>
 
-Project overview
-Urban Glow is a Java (Spring Boot) web application that serves a salon/beauty service platform. It includes server-rendered pages (Thymeleaf templates and static HTML files), REST endpoints used by the frontend, and simple database utilities to read/write data. The repository contains the application entry point, controller classes for user/owner/admin flows, utility classes to execute SQL and convert results to JSON, UI templates, and static frontend assets.
+<p align="center">
+  A Spring Boot-based web application for managing and browsing salon services.
+</p>
 
-Main features (implemented in this repo)
-User sign-up and login (REST endpoints + signup/login pages)
-Salon owner sign-up and login (owner pages + REST endpoints)
-Admin pages and REST endpoints for managing owners and cities
-City, salon and package listing endpoints that return JSON for the frontend
-Booking flow: users can create bookings and view booking history
-Owner pages to manage bookings, salon photos and service/package details
-Static marketing pages (index, about, services, price, gallery, blog, contact, team, testimonials) and CSS/JS assets
-Utility to convert RDBMS ResultSets to JSON for API responses
-Local database dump folder (Database/dump) intended for schema/data import
-Technologies / frameworks used
-Language: Java (primary runtime)
-Framework: Spring Boot (parent POM and web starter present)
-Template engine: Thymeleaf (spring-boot-starter-thymeleaf)
-Database driver: MySQL Connector/J
-JSON utility: json-simple
-Build system: Maven (pom.xml)
-Frontend: HTML, SCSS, JavaScript and static asset folders under src/main/resources/static
-User roles (based on templates & controllers)
-User — browse salons, view packages, sign up, log in, book services, view booking history
-Salon Owner — sign up, log in, manage salon photos, services, and bookings
-Admin — log in, manage cities and owner approvals (templates and controllers indicate admin management screens)
-Main modules / functionality (key packages & files)
-src/main/java/com/new_project/demo
-UrbanGlowApplication.java — Spring Boot application entry point
-src/main/java/com/new_project/demo/controllers
-AdminController.java, AdminRestController.java — admin pages and API
-SalonOwnerController.java, SalonOwnerRestController.java — owner pages and API
-UserController.java, UserRestController.java — user pages and API
-UserRestController contains endpoints for signup, login, viewing cities, salons, packages, and bookings
-src/main/java/com/new_project/demo/vmm
-DBLoader.java — low-level JDBC helper (executes SQL)
-RDBMS_TO_JSON.java — converts ResultSet rows into JSON output (used by REST controllers)
-src/main/resources/templates — Thymeleaf / HTML templates for admin, owner and user UIs
-src/main/resources/static — static frontend assets (HTML, CSS/SCSS, JS, images, upload directories)
-Database/dump — location for database dump(s) / import artifacts
-Database information
-The repository expects a MySQL-compatible database. A Database/dump directory is present (inspect it for SQL schema and seed data).
-The project currently uses a simple JDBC helper that opens a direct connection from code. Before running in any shared environment you should:
-Inspect Database/dump for schema and import instructions.
-Create the application database locally (name and schema can be found in the dump or code).
-Avoid leaving credentials hardcoded — use environment variables or a proper Spring datasource configuration.
-Important: do not commit any production credentials. Replace any hardcoded connection strings or passwords with externalized configuration.
+<hr>
 
-Payment integration
-There is no evidence of payment provider integration (Stripe, PayPal or similar) in this repository. No payment SDKs, payment endpoints or configuration files related to payment were found.
-Project structure (annotated)
-Code
-.gitattributes
-.gitignore
-pom.xml                          # Maven build file (Spring Boot parent, dependencies)
-nb-configuration.xml
-nbactions.xml
-README.md
-Database/
-  dump/                           # SQL dump(s) or DB artifacts (inspect to import schema/data)
-src/
-  main/
-    java/
-      com/new_project/demo/
-        UrbanGlowApplication.java  # Spring Boot entry point
-        controllers/               # User, Owner, Admin controllers and REST controllers
-        vmm/                       # DBLoader, RDBMS_TO_JSON utilities
-    resources/
-      application.properties       # Spring/application runtime config (inspect and update)
-      static/                      # static HTML/CSS/JS/img assets (public site)
-        css/
-        scss/
-        js/
-        img/
-        myphotos/                  # uploaded photos
-        owner_uploads/
-        owner_new_uploads/
-      templates/                   # server-side views (Admin/Owner/User pages)
-  test/                            # tests (if provided)
-How it fits together
+<h2>Project Overview</h2>
 
-The Spring Boot application bootstraps from UrbanGlowApplication.java. Controllers handle incoming HTTP requests; some endpoints return JSON generated by the RDBMS_TO_JSON utility which executes SQL via DBLoader. Templates are used for server-rendered pages and static files are served from the static folder. The build is managed by Maven (pom.xml) and the Spring Boot plugin can run or package the application.
-Setup and installation
-Prerequisites
+<p>
+Urban Glow is a Java Spring Boot web application that serves as a salon and
+beauty service platform. It provides user, salon-owner, and administrator
+functionalities including registration, login, salon browsing, bookings,
+service management, and administrative management.
+</p>
 
-Java JDK 17 (project POM sets java.version to 17)
-Maven 3.6+
-MySQL (or compatible RDBMS) for the application database
-Git (to clone the repo)
-Clone the repository
+<p>
+The application uses server-rendered Thymeleaf templates, REST endpoints,
+static HTML/CSS/JavaScript assets, and MySQL database connectivity.
+</p>
 
-Code
-git clone https://github.com/ishita1234735/Urban-Glow.git
-cd Urban-Glow
-Database
 
-Inspect Database/dump/ for SQL schema and seed data. Import the SQL dump into a local database:
-Code
-mysql -u <db_user> -p <database_name> < Database/dump/<dump-file>.sql
-Replace placeholders with your database user/name and the actual dump file name.
-If you prefer to create the schema manually, use the SQL files provided in Database/dump (if present).
-Configuration
+<h2>Main Features</h2>
 
-Inspect src/main/resources/application.properties for configurable properties (server port, logging, etc.).
-This project contains a low-level JDBC helper that opens connections directly in code. Before running:
-Either update DB connection details safely (do not commit secrets), or
-Replace DBLoader usage with a proper Spring-managed DataSource and externalize credentials using environment variables or an external properties file.
-Example (recommended): configure the datasource in application.properties or via environment variables and remove hardcoded credentials from the Java helper.
-Build
+<ul>
+  <li>User sign-up and login</li>
+  <li>Salon owner sign-up and login</li>
+  <li>Admin login and management</li>
+  <li>City, salon, and package listing</li>
+  <li>Salon service and package details</li>
+  <li>User booking functionality</li>
+  <li>Booking history for users</li>
+  <li>Salon owner booking management</li>
+  <li>Salon photo management</li>
+  <li>Service and package management</li>
+  <li>Online payment integration using Razorpay</li>
+  <li>Static pages for home, about, services, pricing, gallery, blog,
+      contact, team, and testimonials</li>
+  <li>Utility for converting database ResultSet data into JSON responses</li>
+  <li>Database dump files for schema and initial data</li>
+</ul>
 
-Code
-mvn clean package
-This compiles the code and packages a runnable artifact (the POM uses the Spring Boot Maven plugin).
-How to run
-Run with Maven (development)
 
-Code
-mvn spring-boot:run
-This requires that your database is accessible and configured.
+<h2>Technologies and Frameworks</h2>
 
-Run the packaged jar
+<table>
+  <tr>
+    <th>Technology</th>
+    <th>Usage</th>
+  </tr>
+  <tr>
+    <td>Java</td>
+    <td>Primary programming language</td>
+  </tr>
+  <tr>
+    <td>Spring Boot</td>
+    <td>Backend framework</td>
+  </tr>
+  <tr>
+    <td>Thymeleaf</td>
+    <td>Server-side template engine</td>
+  </tr>
+  <tr>
+    <td>MySQL</td>
+    <td>Database</td>
+  </tr>
+  <tr>
+    <td>HTML</td>
+    <td>Frontend structure</td>
+  </tr>
+  <tr>
+    <td>CSS / SCSS</td>
+    <td>Frontend styling</td>
+  </tr>
+  <tr>
+    <td>JavaScript</td>
+    <td>Frontend functionality and REST API interaction</td>
+  </tr>
+  <tr>
+    <td>Maven</td>
+    <td>Build and dependency management</td>
+  </tr>
+  <tr>
+    <td>MySQL Connector/J</td>
+    <td>Database connectivity</td>
+  </tr>
+  <tr>
+    <td>json-simple</td>
+    <td>JSON processing</td>
+  </tr>
+  <tr>
+    <td>Razorpay</td>
+    <td>Online payment integration</td>
+  </tr>
+</table>
 
-Code
-java -jar target/demo-0.0.1-SNAPSHOT.jar
-Replace the jar name if the built artifact name differs in your environment.
 
-After startup, open the application in your browser at:
+<h2>User Roles</h2>
 
-http://localhost:8080 (default Spring Boot port unless changed in application.properties)
-Notable REST endpoints (implemented in UserRestController)
-The following endpoints are provided in UserRestController (useful for the frontend and API testing):
+<h3>User</h3>
 
-POST /CheckUserSignup — user signup (multipart for user photo)
-POST /CheckUserLogin — user login (creates session attributes)
-GET /ShowCityData — returns city data as JSON
-POST /ViewSalons — list salons for a city (expects city id)
-POST /ViewOwnerDetails — owner details by owner id
-POST /ViewShopDetails — shop photos by owner id
-POST /ViewPackageDetails — packages for owner id
-POST /CheckPackageServiceDetails — package details by package id
-POST /CheckUserBooking — create a booking (uses session to get user)
-POST /CheckUserBookingHistory — returns booking history for signed-in user
-For admin and owner-specific REST endpoints, consult AdminRestController.java and SalonOwnerRestController.java.
+<ul>
+  <li>Browse available salons</li>
+  <li>View salon packages and services</li>
+  <li>Sign up and log in</li>
+  <li>Book salon services</li>
+  <li>View booking history</li>
+</ul>
+
+<h3>Salon Owner</h3>
+
+<ul>
+  <li>Sign up and log in</li>
+  <li>Manage salon photos</li>
+  <li>Manage services and packages</li>
+  <li>Manage bookings</li>
+</ul>
+
+<h3>Admin</h3>
+
+<ul>
+  <li>Log in</li>
+  <li>Manage cities</li>
+  <li>Manage salon owners</li>
+  <li>Manage owner approvals</li>
+</ul>
+
+
+<h2>Main Modules and Functionality</h2>
+
+<h3>Application Entry Point</h3>
+
+<p>
+<code>src/main/java/com/new_project/demo/UrbanGlowApplication.java</code>
+</p>
+
+<p>
+This class serves as the Spring Boot application entry point.
+</p>
+
+<h3>Controllers</h3>
+
+<ul>
+  <li><code>AdminController.java</code> — Admin pages</li>
+  <li><code>AdminRestController.java</code> — Admin REST endpoints</li>
+  <li><code>SalonOwnerController.java</code> — Salon owner pages</li>
+  <li><code>SalonOwnerRestController.java</code> — Salon owner REST endpoints</li>
+  <li><code>UserController.java</code> — User pages</li>
+  <li><code>UserRestController.java</code> — User REST endpoints</li>
+</ul>
+
+<h3>Database Utilities</h3>
+
+<ul>
+  <li>
+    <code>DBLoader.java</code> — Executes SQL queries and handles database
+    connectivity.
+  </li>
+  <li>
+    <code>RDBMS_TO_JSON.java</code> — Converts database ResultSet data into
+    JSON responses.
+  </li>
+</ul>
+
+
+<h2>Project Structure</h2>
+
+<pre>
+Urban-Glow/
+|
+|-- Database/
+|   |-- dump/
+|
+|-- src/
+|   |-- main/
+|       |-- java/
+|       |   |-- com/new_project/demo/
+|       |       |-- UrbanGlowApplication.java
+|       |       |-- controllers/
+|       |       |-- vmm/
+|       |
+|       |-- resources/
+|           |-- static/
+|           |   |-- css/
+|           |   |-- scss/
+|           |   |-- js/
+|           |   |-- img/
+|           |   |-- myphotos/
+|           |   |-- owner_uploads/
+|           |   |-- owner_new_uploads/
+|           |
+|           |-- templates/
+|
+|-- pom.xml
+|-- .gitignore
+|-- .gitattributes
+|-- README.md
+</pre>
+
+
+<h2>Database Information</h2>
+
+<p>
+The application uses a MySQL-compatible database. The repository contains
+database-related files inside the <code>Database/dump</code> directory.
+</p>
+
+<p>
+Before running the application:
+</p>
+
+<ol>
+  <li>Inspect the <code>Database/dump</code> directory.</li>
+  <li>Create the required database.</li>
+  <li>Import the required SQL dump.</li>
+  <li>Configure the database connection.</li>
+</ol>
+
+<p>
+Database passwords and other sensitive credentials should not be committed
+to the repository.
+</p>
+
+
+<h2>Payment Integration</h2>
+
+<p>
+Urban Glow includes Razorpay integration for online payments.
+The project uses a Razorpay test key for development and testing.
+</p>
+
+<p>
+Sensitive payment credentials, such as the Razorpay secret key, should never
+be committed to GitHub.
+</p>
+
+
+<h2>How the Application Works</h2>
+
+<p>
+The Spring Boot application starts through
+<code>UrbanGlowApplication.java</code>.
+Controllers handle incoming requests and communicate with the database
+through the application's database utility classes.
+</p>
+
+<p>
+REST endpoints provide data to the frontend, while Thymeleaf templates are
+used for server-rendered pages. Static HTML, CSS, JavaScript, images, and
+other frontend assets are served from the static resources directory.
+</p>
+
+<p>
+The project uses Maven for dependency management, compilation, and packaging.
+</p>
+
+
+<h2>Setup and Installation</h2>
+
+<h3>Prerequisites</h3>
+
+<ul>
+  <li>Java JDK</li>
+  <li>Maven</li>
+  <li>MySQL</li>
+  <li>Git</li>
+</ul>
+
+
+<h3>Clone the Repository</h3>
+
+<pre><code>git clone https://github.com/ishita1234735/Urban-Glow.git
+cd Urban-Glow</code></pre>
+
+
+<h3>Database Setup</h3>
+
+<p>
+Inspect the <code>Database/dump/</code> directory for the available SQL
+schema and data files.
+</p>
+
+<p>A typical MySQL import command is:</p>
+
+<pre><code>mysql -u &lt;db_user&gt; -p &lt;database_name&gt; &lt; Database/dump/&lt;dump-file&gt;.sql</code></pre>
+
+<p>
+Replace the placeholders with your own database username, database name,
+and SQL file name.
+</p>
+
+
+<h3>Configuration</h3>
+
+<p>
+Check the application configuration inside:
+</p>
+
+<pre><code>src/main/resources/application.properties</code></pre>
+
+<p>
+Configure the required database and application settings before running
+the project.
+</p>
+
+<p>
+Sensitive information such as database passwords, API secrets, and payment
+provider secret keys should be stored outside the repository using
+environment variables or other secure configuration methods.
+</p>
+
+
+<h2>Build the Application</h2>
+
+<pre><code>mvn clean package</code></pre>
+
+<p>
+This compiles the application and creates the packaged application artifact.
+</p>
+
+
+<h2>Run the Application</h2>
+
+<h3>Using Maven</h3>
+
+<pre><code>mvn spring-boot:run</code></pre>
+
+<h3>Using the Packaged JAR</h3>
+
+<pre><code>java -jar target/demo-0.0.1-SNAPSHOT.jar</code></pre>
+
+<p>
+The generated JAR name may differ depending on the project configuration.
+</p>
+
+<p>
+After starting the application, open:
+</p>
+
+<pre><code>http://localhost:8080</code></pre>
+
+
+<h2>REST API Endpoints</h2>
+
+<table>
+  <tr>
+    <th>Method</th>
+    <th>Endpoint</th>
+    <th>Purpose</th>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td><code>/CheckUserSignup</code></td>
+    <td>User registration</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td><code>/CheckUserLogin</code></td>
+    <td>User login</td>
+  </tr>
+  <tr>
+    <td>GET</td>
+    <td><code>/ShowCityData</code></td>
+    <td>Returns city data</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td><code>/ViewSalons</code></td>
+    <td>Lists salons for a city</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td><code>/ViewOwnerDetails</code></td>
+    <td>Returns salon owner details</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td><code>/ViewShopDetails</code></td>
+    <td>Returns salon/shop photos</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td><code>/ViewPackageDetails</code></td>
+    <td>Returns package information</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td><code>/CheckPackageServiceDetails</code></td>
+    <td>Returns package/service details</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td><code>/CheckUserBooking</code></td>
+    <td>Creates a booking</td>
+  </tr>
+  <tr>
+    <td>POST</td>
+    <td><code>/CheckUserBookingHistory</code></td>
+    <td>Returns user booking history</td>
+  </tr>
+</table>
+
+<p>
+Additional administrator and salon-owner REST endpoints are available in
+<code>AdminRestController.java</code> and
+<code>SalonOwnerRestController.java</code>.
+</p>
+
+
+
+<p>
+<strong>Ishita Arora</strong>
+</p>
+
+<hr>
+
+<p align="center">
+  Urban Glow — Salon Management and Booking System
+</p>
